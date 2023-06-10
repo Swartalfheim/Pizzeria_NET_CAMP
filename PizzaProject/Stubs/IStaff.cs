@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace PizzaProject.Stubs
 {
-    internal interface IStaff
+    internal interface IStaff : IPerson
     {
+        string Info { get; }
     }
 }

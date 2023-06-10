@@ -8,5 +8,8 @@ namespace PizzaProject.Stubs
 {
     internal class ChefManager : IStaff
     {
+        public Guid Id { get; }
+        public string Name { get; }
+        public string Info { get; }
     }
 }

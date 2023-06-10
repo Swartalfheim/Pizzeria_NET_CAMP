@@ -8,5 +8,7 @@ namespace PizzaProject.Stubs
 {
     internal interface IPerson
     {
+        Guid Id { get; }
+        string Name { get; }
     }
 }

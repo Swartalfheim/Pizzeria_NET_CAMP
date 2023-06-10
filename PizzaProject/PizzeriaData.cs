@@ -32,7 +32,7 @@ namespace PizzaProject
 
         public string GetStaffInfo(IStaff staff)
         {
-            return "";
+            return staff.Info;
         }
 
         public void SetVipStatus(Customer customer, HashSet<VipLvl> status)
@@ -62,7 +62,8 @@ namespace PizzaProject
 
         public void SetManager(IPerson person)
         {
-
+            Manager manager = new Manager(person.Id, person.Name, _menu);
+            _manager = manager;
         }
     }
 }
