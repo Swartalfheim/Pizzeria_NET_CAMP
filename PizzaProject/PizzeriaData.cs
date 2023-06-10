@@ -42,22 +42,22 @@ namespace PizzaProject
 
         public void AddStaff(IStaff staff)
         {
-
+            _staff.Add(staff);
         }
 
         public void RemoveStaff(IStaff staff)
         {
-
+            _staff.Remove(staff);
         }
 
         public void AddICashRegister(ICashRegister cashRegister)
         {
-
+            _cashRegs.Add(cashRegister);
         }
 
         public void RemoveICashRegister(ICashRegister cashRegister)
         {
-
+            _cashRegs.Remove(cashRegister);
         }
 
         public void SetManager(IPerson person)
