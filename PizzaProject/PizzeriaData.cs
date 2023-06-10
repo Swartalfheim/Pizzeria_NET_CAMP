@@ -37,7 +37,11 @@ namespace PizzaProject
 
         public void SetVipStatus(Customer customer, HashSet<VipLvl> status)
         {
-
+            customer.VipStatus.RemoveWhere(_ => true);
+            foreach (var vipLvl in status)
+            {
+                customer.VipStatus.Add(vipLvl);
+            }
         }
 
         public void AddStaff(IStaff staff)

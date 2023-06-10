@@ -8,5 +8,15 @@ namespace PizzaProject.Stubs
 {
     internal class Customer : IPerson
     {
+        private HashSet<VipLvl> _vipStatus;
+
+        public Customer()
+        {
+            _vipStatus = new HashSet<VipLvl>() { VipLvl.None };
+        }
+
+        public Guid Id { get; }
+        public string Name { get; }
+        public HashSet<VipLvl> VipStatus { get => _vipStatus; }
     }
 }
