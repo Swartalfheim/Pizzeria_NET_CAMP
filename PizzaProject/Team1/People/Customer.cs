@@ -51,14 +51,14 @@ namespace PizzaProject.Team1.People
         {
             _vipLvls = new HashSet<VipLvl>(vipLvls);
         }
-        public void MakeOrder(HashSet<ICashRegister> cashRegs) //pizzeria -> ICashRegisters
+        public void MakeOrder(HashSet<ICashRegister> cashRegs/*ref bool select*/) //pizzeria -> ICashRegisters
         {
             //вибір cashReg за меншою кількістю людей у черзі
             var cashreg = cashRegs.Where(c => c.CustomersInQueue == cashRegs.Min(c => c.CustomersInQueue)).FirstOrDefault();
 
             cashreg.MakeOrder(this); //якщо з черги, то можна і без цього
 
-            var menu = cashreg.Menu; //dish, additional, price = menu item
+            var menu = cashreg.GetMenu; //dish, additional, price = menu item
 
             //передача страв рядками? 
 
@@ -76,6 +76,15 @@ namespace PizzaProject.Team1.People
             //cashreg.AddDishToOrder(dish, selectedAdditional);
             //cashreg.AddDishToOrder(dish, selectedAdditional);
             //cashreg.AddDishToOrder(dish, selectedAdditional);
+            
+            
+            /*
+             * новий потік для вибьору страв Парам: меню, каса, 
+             while(select){
+            thread.Sleap(5000)
+            }
+             
+             */
 
             Pay(cashreg, Wallet.PaymentCategory.Card); //pref - з тих, що є
         }
@@ -84,7 +93,10 @@ namespace PizzaProject.Team1.People
         {
 
         }
-
+        public void SelectDish(ICashRegister cahsReg, string dishName)
+        {
+            //cashReg.AddDish()
+        }
         private bool Pay(ICashRegister cashReg, Wallet.PaymentCategory prefferdWayToPay)
         {
             Wallet wayToPay = _wallets.Where(w => w.Category == prefferdWayToPay).First();

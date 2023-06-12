@@ -1,10 +1,7 @@
 ﻿using PizzaProject.Team1.TemporaryClasses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using PizzaProject.Team1.People;
 namespace PizzaProject.Team1.CashRegisters
 {
     internal class CashRegister : ICashRegister
