@@ -31,7 +31,7 @@ namespace PizzaProject
         }
         public string Name { get => _name; }
         public string Description { get => _description; }
-        public Category Category { get => Category.Pizzas; }
+        public PizzeriaData.Category Category { get => PizzeriaData.Category.Pizzas; }
         public Recipe Recipe { get => _recipe; }
         public PizzaDough Dough { get => _dough; }
         public IOffer.Size Size { get => _size; }
@@ -42,7 +42,17 @@ namespace PizzaProject
         }
         public override string ToString()
         {
-            throw new NotImplementedException();
+            string text = $"Pizza \"{_name}\" - Dough: {_dough}, Size: {_size}";
+            if (_additionalIngredients.Any())
+            {
+                text += ", Additional ingredients: ";
+                for (int i = 0; i < _additionalIngredients.Count - 1; i++)
+                {
+                    text += $"{_additionalIngredients[i].Name}, ";
+                }
+                text += $"{_additionalIngredients[^1].Name}";
+            }
+            return text;
         }
     }
 }

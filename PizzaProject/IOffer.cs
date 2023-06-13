@@ -1,6 +1,4 @@
-﻿using PizzaProject.Temp;
-
-namespace PizzaProject
+﻿namespace PizzaProject
 {
     public interface IOffer : IStorageable
     {
@@ -12,7 +10,7 @@ namespace PizzaProject
             Small
         }
         string Description { get; }
-        Category Category { get; }
+        PizzeriaData.Category Category { get; }
         Recipe Recipe { get; }
     }
 }

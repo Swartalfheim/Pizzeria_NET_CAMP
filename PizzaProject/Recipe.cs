@@ -18,7 +18,7 @@
         {
             get
             {
-                int seconds = _cookingStages.Values.SelectMany(s => s.Select(t => t.Item2.Second)).Sum();
+                int seconds = _cookingStages.Values.SelectMany(s => s.Select(t => t.Item2.Hour * 3600 + t.Item2.Minute * 60 + t.Item2.Second)).Sum();
                 return TimeOnly.FromTimeSpan(TimeSpan.FromSeconds(seconds));
             }
         }
@@ -35,15 +35,21 @@
         }
         public void RemoveCookingStage(KeyValuePair<CookingStage, List<(IStorageable, TimeOnly)>> stage)
         {
-            //TODO
-            /*if (_cookingStages.ContainsKey(stage.Key))
+            if (_cookingStages.ContainsKey(stage.Key))
             {
                 foreach ((IStorageable, TimeOnly) ingredient in stage.Value)
                 {
-                    _cookingStages[stage.Key].
+                    (IStorageable, TimeOnly) item = _cookingStages[stage.Key].FirstOrDefault(i => i.Item1.Name ==  ingredient.Item1.Name);
+                    if (item.Item1 != null)
+                    {
+                        _cookingStages[stage.Key].Remove(item);
+                    }
                 }
-            }*/
-            throw new NotImplementedException();
+                if (!_cookingStages[stage.Key].Any())
+                {
+                    _cookingStages.Remove(stage.Key);
+                }
+            }
         }
         public Dictionary<CookingStage, List<(IStorageable, TimeOnly)>> GetWholeRecipe()
         {
@@ -51,7 +57,26 @@
         }
         public override string ToString()
         {
-            throw new NotImplementedException();
+            string text = string.Empty;
+            foreach (KeyValuePair<CookingStage, List<(IStorageable, TimeOnly)>> group in _cookingStages)
+            {
+                text += $"{group.Key}: ";
+                TimeOnly time;
+                for (int i = 0; i < group.Value.Count - 1; i++)
+                {
+                    time = group.Value[i].Item2;
+                    text += $"{group.Value[i].Item1.Name} " +
+                        $"({(time.Hour > 0 ? time.Hour + "h" : "")}" +
+                        $"{(time.Minute > 0 ? time.Minute + "m" : "")}" +
+                        $"{(time.Second > 0 ? time.Second + "s" : "")}), ";
+                }
+                time = group.Value[^1].Item2;
+                text += $"{group.Value[^1].Item1.Name} " +
+                    $"({(time.Hour > 0 ? time.Hour + "h" : "")}" +
+                    $"{(time.Minute > 0 ? time.Minute + "m" : "")}" +
+                    $"{(time.Second > 0 ? time.Second + "s" : "")}). ";
+            }
+            return text;
         }
     }
 }

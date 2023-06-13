@@ -1,6 +1,4 @@
-﻿using PizzaProject.Temp;
-
-namespace PizzaProject
+﻿namespace PizzaProject
 {
     public class Juice : IOffer
     {
@@ -25,13 +23,13 @@ namespace PizzaProject
         }
         public string Name { get => _name; }
         public string Description { get => _description; }
-        public Category Category { get => Category.Drinks; }
+        public PizzeriaData.Category Category { get => PizzeriaData.Category.Drinks; }
         public Recipe Recipe { get => _recipe; }
         public JuiceTaste Taste { get => _taste; }
         public IOffer.Size Size { get => _size; }
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return $"Juice \"{_name}\" - Taste: {_taste}, Size: {_size}";
         }
     }
 }
