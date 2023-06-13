@@ -22,7 +22,10 @@ namespace PizzaProject
             _staff = new HashSet<IStaff>();
             foreach (var item in staff)
             {
-                _staff.Add(item);
+                if (!(item is Manager) && !(item is ChefManager))
+                {
+                    _staff.Add(item);
+                }
             }
 
             _manager = manager;
@@ -60,7 +63,7 @@ namespace PizzaProject
 
         public void AddStaff(IStaff staff)
         {
-            if (staff != null)
+            if (staff != null && !(staff is Manager) && !(staff is ChefManager))
             {
                 _staff.Add(staff);
             }
