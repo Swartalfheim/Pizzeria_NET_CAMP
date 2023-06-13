@@ -1,4 +1,6 @@
-﻿namespace PizzaProject
+﻿using PizzaProject.Team2.Implementations;
+
+namespace PizzaProject.Team2.Abstractions
 {
     public interface IOffer : IStorageable
     {

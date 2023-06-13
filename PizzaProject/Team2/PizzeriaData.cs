@@ -1,4 +1,4 @@
-﻿namespace PizzaProject
+﻿namespace PizzaProject.Team2
 {
     public class PizzeriaData
     {

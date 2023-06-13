@@ -1,4 +1,6 @@
-﻿namespace PizzaProject
+﻿using PizzaProject.Team2.Abstractions;
+
+namespace PizzaProject.Team2.Implementations
 {
     public class Recipe
     {
@@ -39,7 +41,7 @@
             {
                 foreach ((IStorageable, TimeOnly) ingredient in stage.Value)
                 {
-                    (IStorageable, TimeOnly) item = _cookingStages[stage.Key].FirstOrDefault(i => i.Item1.Name ==  ingredient.Item1.Name);
+                    (IStorageable, TimeOnly) item = _cookingStages[stage.Key].FirstOrDefault(i => i.Item1.Name == ingredient.Item1.Name);
                     if (item.Item1 != null)
                     {
                         _cookingStages[stage.Key].Remove(item);

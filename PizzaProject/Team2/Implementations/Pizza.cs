@@ -1,6 +1,6 @@
-﻿using PizzaProject.Temp;
+﻿using PizzaProject.Team2.Abstractions;
 
-namespace PizzaProject
+namespace PizzaProject.Team2.Implementations
 {
     public class Pizza : IOffer, IHaveAdditionalIngredients
     {

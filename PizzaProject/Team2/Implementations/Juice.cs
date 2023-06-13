@@ -1,4 +1,6 @@
-﻿namespace PizzaProject
+﻿using PizzaProject.Team2.Abstractions;
+
+namespace PizzaProject.Team2.Implementations
 {
     public class Juice : IOffer
     {
