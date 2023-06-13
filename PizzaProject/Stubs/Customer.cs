@@ -18,5 +18,10 @@ namespace PizzaProject.Stubs
         public Guid Id { get; }
         public string Name { get; }
         public HashSet<VipLvl> VipStatus { get => _vipStatus; }
+
+        public void SetVipLvls(HashSet<VipLvl> vipLvls)
+        {
+
+        }
     }
 }
