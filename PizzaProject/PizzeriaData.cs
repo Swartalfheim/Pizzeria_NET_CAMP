@@ -60,7 +60,10 @@ namespace PizzaProject
 
         public void AddStaff(IStaff staff)
         {
-            _staff.Add(staff);
+            if (staff != null)
+            {
+                _staff.Add(staff);
+            }
         }
 
         public void RemoveStaff(IStaff staff)
@@ -70,7 +73,10 @@ namespace PizzaProject
 
         public void AddICashRegister(ICashRegister cashRegister)
         {
-            _cashRegs.Add(cashRegister);
+            if (cashRegister != null)
+            {
+                _cashRegs.Add(cashRegister);
+            }
         }
 
         public void RemoveICashRegister(ICashRegister cashRegister)
@@ -80,8 +86,11 @@ namespace PizzaProject
 
         public void SetManager(IPerson person)
         {
-            Manager manager = new Manager(person.Id, person.Name, _menu);
-            _manager = manager;
+            if (person != null)
+            {
+                Manager manager = new Manager(person.Id, person.Name, _menu);
+                _manager = manager;
+            }
         }
     }
 }
