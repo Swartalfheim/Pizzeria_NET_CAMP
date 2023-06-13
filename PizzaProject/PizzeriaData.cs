@@ -17,52 +17,27 @@ namespace PizzaProject
         private HashSet<ICashRegister> _cashRegs;
         private Storage _productStorage;
 
-        public PizzeriaData(object[] args)
+        public PizzeriaData(HashSet<IStaff> staff, Manager manager, ChefManager chefManager, LoyaltyProgram loyaltyProgram, Menu menu, HashSet<ICashRegister> cashRegs, Storage productStorage)
         {
-            foreach (var obj in args)
+            _staff = new HashSet<IStaff>();
+            foreach (var item in staff)
             {
-                if (obj != null)
-                {
-                    if (obj is LoyaltyProgram)
-                    {
-                        _loyaltyProgram = obj as LoyaltyProgram;
-                    }
-                    else if (obj is Menu)
-                    {
-                        _menu = obj as Menu;
-                    }
-                    else if (obj is Storage)
-                    {
-                        _productStorage = obj as Storage;
-                    }
-                    else if (obj is Manager)
-                    {
-                        _manager = obj as Manager;
-                    }
-                    else if (obj is ChefManager)
-                    {
-                        _chefManager = obj as ChefManager;
-                    }
-                    else if (obj is HashSet<IStaff>)
-                    {
-                        _staff = new HashSet<IStaff>();
-                        var tempStaff = obj as HashSet<IStaff>;
-                        foreach (var item in tempStaff)
-                        {
-                            _staff.Add(item);
-                        }
-                    }
-                    else if (obj is HashSet<ICashRegister>)
-                    {
-                        _cashRegs = new HashSet<ICashRegister>();
-                        var tempCashRegs = obj as HashSet<ICashRegister>;
-                        foreach (var item in tempCashRegs)
-                        {
-                            _cashRegs.Add(item);
-                        }
-                    }
-                }
+                _staff.Add(item);
             }
+
+            _manager = manager;
+            _chefManager = chefManager;
+
+            _loyaltyProgram = loyaltyProgram;
+            _menu = menu;
+
+            _cashRegs = new HashSet<ICashRegister>();
+            foreach (var item in cashRegs)
+            {
+                _cashRegs.Add(item);
+            }
+
+            _productStorage = productStorage;
         }
 
         public Manager Manager { get => _manager; }
