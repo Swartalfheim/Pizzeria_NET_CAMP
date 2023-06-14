@@ -1,31 +1,28 @@
+using PizzeriaTask_my_part_.TemporaryClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PizzeriaTask_my_part_.TemporaryClasses;
 
 namespace PizzeriaTask_my_part_
 {
-    internal class RandomCustomerGenerator : ICustomerGenerationStrategy
+    internal class DefaultCustomerGenerator : ICustomerGenerationStrategy
     {
-        private int _minAmountOfCustomers = 0;
-        private int _maxAmountOfCustomers = 100;
+        private uint _customerCount = 1;
 
-        public RandomCustomerGenerator(int minAmountOfCustomers, int maxAmountOfCustomers)
+        public DefaultCustomerGenerator()
         {
-            if(minAmountOfCustomers < 0 || minAmountOfCustomers >= maxAmountOfCustomers)
-            {
-                throw new ArgumentOutOfRangeException("Invalid range for generation");
-            }
-            _minAmountOfCustomers = minAmountOfCustomers;
-            _maxAmountOfCustomers = maxAmountOfCustomers;
+        }
+        public DefaultCustomerGenerator(uint amountOfCustomers)
+        {
+            _customerCount = amountOfCustomers;
         }
 
         public List<Customer> GenerateVisitors()
         {
             Random r = new Random();
-            List<Customer> customers = new List<Customer>(r.Next(_minAmountOfCustomers, _maxAmountOfCustomers));
+            List<Customer> customers = new List<Customer>((int)_customerCount);
             for (int i = 0; i < customers.Capacity; i++)
             {
                 string userName = Guid.NewGuid().ToString();

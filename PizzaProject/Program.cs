@@ -5,15 +5,18 @@ namespace PizzaProject
     {
         static void Main(string[] args)
         {
-
-            
-
-            var CustomerGenerator = new CustomerGenerator(5, new List<uint>(), new RandomCustomerGenerator(0, 15));
-            var users = CustomerGenerator.GenerateVisitorsForSimulation();
+            var customerGenerator = new CustomerGenerator(new DefaultCustomerGenerator(10));
+            //var CustomerGenerator = new CustomerGenerator(new RandomCustomerGenerator(0, 15));
+            var users = customerGenerator.GenerateVisitorsForSimulation();
 
             foreach (var user in users)
             {
-                Console.WriteLine(user.Name + user.VipLvls);
+                Console.WriteLine(user.Name);
+                foreach (var lvl in user.VipLvls)
+                {
+                    System.Console.WriteLine(lvl);
+                }
+                System.Console.WriteLine();
             }
 
             Console.WriteLine("Hello, World!");
