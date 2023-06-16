@@ -33,5 +33,9 @@ namespace PizzaProject.Team2.Implementations
         {
             return $"Juice \"{_name}\" - Taste: {_taste}, Size: {_size}";
         }
+        public bool Equals(IOffer? other)
+        {
+            return _name == other?.Name;
+        }
     }
 }

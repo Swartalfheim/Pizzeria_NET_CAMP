@@ -54,5 +54,9 @@ namespace PizzaProject.Team2.Implementations
             }
             return text;
         }
+        public bool Equals(IOffer? other)
+        {
+            return _name == other?.Name;
+        }
     }
 }
