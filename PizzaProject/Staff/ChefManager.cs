@@ -6,16 +6,13 @@ namespace PizzaProject.Staff
     {
         private string _name;
         private readonly object _chefLock = new object();
-        private ConcurrentQueue<string> _orderQueue = new ConcurrentQueue<string>();
-        private Thread _orderProcessingThread;
-
+        private BlockingCollection<string> _orderQueue = new BlockingCollection<string>();
         public List<Chef> Chefs { get; set; } = new List<Chef>();
 
         public ChefManager(string name)
         {
-            _orderProcessingThread = new Thread(ProcessOrders);
-            _orderProcessingThread.Start();
             _name = name;
+            Task.Factory.StartNew(ProcessOrders, TaskCreationOptions.LongRunning);
         }
 
         public Chef GetChefByName(string name)
@@ -25,49 +22,56 @@ namespace PizzaProject.Staff
 
         public void AddOrder(string order)
         {
-            _orderQueue.Enqueue(order);
+            if (_orderQueue.IsAddingCompleted)
+            {
+                StartProcessingOrders();
+            }
+
+            _orderQueue.Add(order);
         }
 
         private void ProcessOrders()
         {
-            while (true)
+            foreach (var order in _orderQueue.GetConsumingEnumerable())
             {
-                if (_orderQueue.TryDequeue(out string order))
+                Chef freeChef = null;
+                lock (_chefLock)
                 {
-                    Chef freeChef = null;
-                    lock (_chefLock)
-                    {
-                        freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.ContainsKey(order));
-                    }
+                    freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.ContainsKey(order));
+                }
 
-                    if (freeChef != null)
+                if (freeChef != null)
+                {
+                    freeChef.IsBusy = true;
+                    Task.Run(() =>
                     {
-                        freeChef.IsBusy = true;
-                        new Thread(() =>
+                        try
                         {
-                            try
-                            {
-                                freeChef.Cook(order);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                                freeChef.IsBusy = false;
-                                _orderQueue.Enqueue(order);
-                            }
-                        }).Start();
-                    }
-                    else
-                    {
-                        _orderQueue.Enqueue(order);
-                        Thread.Sleep(1000);
-                    }
+                            freeChef.Cook(order);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            freeChef.IsBusy = false;
+                            _orderQueue.Add(order);
+                        }
+                    });
                 }
                 else
                 {
-                    Thread.Sleep(1000);
+                    _orderQueue.Add(order);
                 }
             }
+        }
+        public void StartProcessingOrders() // Відновлення роботи ChefManager
+        {
+            _orderQueue = new BlockingCollection<string>();
+            Task.Factory.StartNew(ProcessOrders, TaskCreationOptions.LongRunning);
+        }
+
+        public void StopProcessingOrders() // зупинка процесу роботи ChefManager
+        {
+            _orderQueue.CompleteAdding();
         }
         public string Info
         {

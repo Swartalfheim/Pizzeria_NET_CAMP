@@ -6,6 +6,7 @@ namespace PizzaProject
     {
         static void Main(string[] args)
         {
+            #region Підготовка
             var pizzaIngredients = new Dictionary<Ingredient, uint>()
             {
                 {new Ingredient{Name = "Cheese"} , 2 },
@@ -23,14 +24,14 @@ namespace PizzaProject
 
 
             // Add chefs
-            /*Chef chef1 = new Chef("Linda", new Dictionary<string, Recipe>
+            Chef chef1 = new Chef("Linda", new Dictionary<string, Recipe>
                                            {
                                                { pizzaRecipe.Name, pizzaRecipe },
                                                { cakeRecipe.Name, cakeRecipe }
                                            }
             );
             chef1.DishPrepared += Print;
-            PizzeriaData.ChefManager.Chefs.Add(chef1);*/
+            PizzeriaData.ChefManager.Chefs.Add(chef1);
 
             Chef chef2 = new Chef("Abdulla", new Dictionary<string, Recipe>
                                           {
@@ -48,7 +49,7 @@ namespace PizzaProject
             );
             chef3.DishPrepared += Print;
             PizzeriaData.ChefManager.Chefs.Add(chef3);
-
+            #endregion
 
 
             // SIMULATION ---------
@@ -59,6 +60,8 @@ namespace PizzaProject
             PizzeriaData.ChefManager.AddOrder("Pizza");
             PizzeriaData.ChefManager.AddOrder("Cake");
 
+            PizzeriaData.ChefManager.StopProcessingOrders(); // зупинка роботи менеджера шефів
+
             Console.ReadKey();
 
             PizzeriaData.ChefManager.AddOrder("Pizza");
@@ -68,7 +71,7 @@ namespace PizzaProject
 
 
             Console.ReadKey();
-            PizzeriaData.Storage.PutIngredient( new Ingredient() { Name = "Cheese" }, 100);
+            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Cheese" }, 100);
             PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Milk" }, 100);
 
             Console.ReadKey();
