@@ -11,9 +11,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F89FD006-8C70-439C-85BF-4C2A18944BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F89FD006-8C70-439C-85BF-4C2A18944BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F89FD006-8C70-439C-85BF-4C2A18944BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F89FD006-8C70-439C-85BF-4C2A18944BB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -22,4 +20,3 @@ Global
 		SolutionGuid = {F8722022-32BF-46E3-9546-399914354C65}
 	EndGlobalSection
 EndGlobal
-
