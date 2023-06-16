@@ -1,7 +1,13 @@
-﻿using PizzaProject.Menu_Loyality.Loyality;
+﻿using PizzaProject.Administration;
+using PizzaProject.Dishes_Orders.Abstractions;
+using PizzaProject.Menu_Loyality.Loyality;
 
 namespace PizzaProject.Menu_Loyality.Menu
-{
+{                   
+    
+                                                                                /// <summary>
+                                                                                /// Remake
+                                                                                /// </summary>
     internal class Manager : IStaff
     {
         private Menu _menu;
@@ -13,7 +19,11 @@ namespace PizzaProject.Menu_Loyality.Menu
         {
             _menu = menu;
         }
-
+        public Manager(Guid id, string name, Menu menu)
+        {
+            _menu = menu;
+            ///Complete constructor
+        }
         public void AddSpecialOffer(IOffer offer, List<DiscountsOfOffer>? discountsOffers = null)
         {
             _menu.AddSpecialOffer(new Dictionary<PizzeriaData.VipLvl, List<DiscountsOfOffer>> {{

@@ -1,4 +1,6 @@
 ﻿using PizzaProject.Costumer_Payment.People;
+using PizzaProject.Dishes_Orders.Abstractions;
+using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Menu_Loyality.Menu;
 
 namespace PizzaProject.Costumer_Payment.CashRegisters
@@ -14,7 +16,7 @@ namespace PizzaProject.Costumer_Payment.CashRegisters
         List<Customer> _customersInQueue = new List<Customer>(); //list чи інша колекція?
         public int CustomersInQueue { get => _customersInQueue.Count; }
 
-        private object _currentOrder; //Order
+        private Order _currentOrder; //Order
         private Customer _currentCustomer;
 
         public event OrderApperiance NewOrderApperiance;
@@ -36,7 +38,7 @@ namespace PizzaProject.Costumer_Payment.CashRegisters
 
         public void MakeOrder(Customer customer)
         {
-            _currentOrder = new();
+            _currentOrder = new();///complete  ctr
             _currentCustomer = customer;
             throw new NotImplementedException();
         }

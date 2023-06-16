@@ -1,3 +1,7 @@
+using PizzaProject.Costumer_Payment;
+using PizzaProject.Costumer_Payment.People;
+using static PizzaProject.Administration.PizzeriaData;
+
 namespace PizzaProject.CustomersGeneration
 {
     internal class DefaultCustomerGenerator : ICustomerGenerationStrategy

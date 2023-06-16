@@ -1,3 +1,7 @@
+using PizzaProject.Administration;
+using PizzaProject.Costumer_Payment.People;
+using PizzaProject.CustomersGeneration;
+
 namespace PizzaProject.Simulation
 {
     internal class Simulator

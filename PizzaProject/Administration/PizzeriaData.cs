@@ -1,8 +1,11 @@
-﻿using PizzaProject.Menu_Loyality.Menu;
+﻿using PizzaProject.Costumer_Payment.CashRegisters;
+using PizzaProject.Costumer_Payment.People;
+using PizzaProject.Menu_Loyality.Loyality;
+using PizzaProject.Menu_Loyality.Menu;
 
 namespace PizzaProject.Administration
 {
-    internal class PizzeriaData
+    public class PizzeriaData
     {
         private Manager _manager;
         private HashSet<IStaff> _staff;
@@ -100,7 +103,13 @@ namespace PizzaProject.Administration
 
 
 
-
+        public enum VipLvl
+        {
+            None,
+            Bronze,
+            Silver,
+            Gold
+        }
         public enum Category
         {
             Drinks,

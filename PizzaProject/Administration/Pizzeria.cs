@@ -1,4 +1,6 @@
-﻿namespace PizzaProject.Administration
+﻿using PizzaProject.Costumer_Payment.CashRegisters;
+
+namespace PizzaProject.Administration
 {
     internal class Pizzeria
     {

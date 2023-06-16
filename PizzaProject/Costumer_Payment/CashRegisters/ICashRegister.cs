@@ -1,9 +1,11 @@
 ﻿using PizzaProject.Costumer_Payment.People;
+using PizzaProject.Dishes_Orders.Abstractions;
+using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Menu_Loyality.Menu;
 
 namespace PizzaProject.Costumer_Payment.CashRegisters
 {
-    public delegate void OrderApperiance(object order);
+    public delegate void OrderApperiance(Order order);
     internal interface ICashRegister
     {
         IMenu GetMenu { get; }

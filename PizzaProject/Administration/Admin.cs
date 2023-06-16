@@ -1,4 +1,6 @@
-﻿namespace PizzaProject.Administration
+﻿using PizzaProject.Costumer_Payment.CashRegisters;
+using PizzaProject.Costumer_Payment.People;
+namespace PizzaProject.Administration
 {
     internal class Admin
     {
@@ -14,7 +16,7 @@
             return _pizzeriaData.GetStaffInfo(staff);
         }
 
-        public void SetVipStatus(Customer customer, HashSet<VipLvl> status)
+        public void SetVipStatus(Customer customer, HashSet<PizzeriaData.VipLvl> status)
         {
             _pizzeriaData.SetVipStatus(customer, status);
         }

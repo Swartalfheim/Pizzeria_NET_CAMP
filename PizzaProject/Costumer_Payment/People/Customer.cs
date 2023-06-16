@@ -1,4 +1,6 @@
 ﻿using PizzaProject.Costumer_Payment.CashRegisters;
+using static PizzaProject.Administration.PizzeriaData;
+
 namespace PizzaProject.Costumer_Payment.People
 {
     class Customer : IPerson

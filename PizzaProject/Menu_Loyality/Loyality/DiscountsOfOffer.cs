@@ -1,4 +1,6 @@
-﻿namespace PizzaProject.Menu_Loyality.Loyality
+﻿using PizzaProject.Dishes_Orders.Abstractions;
+
+namespace PizzaProject.Menu_Loyality.Loyality
 {
     internal class DiscountsOfOffer : IEquatable<DiscountsOfOffer>
     {

@@ -1,6 +1,9 @@
-﻿namespace PizzaProject.Menu_Loyality.Loyality
+﻿using PizzaProject.Administration;
+using PizzaProject.Costumer_Payment.People;
+
+namespace PizzaProject.Menu_Loyality.Loyality
 {
-    internal class LoyalityProgram
+    internal class LoyaltyProgram
     {
         private Dictionary<Customer, HashSet<PizzeriaData.VipLvl>> _customers = new Dictionary<Customer, HashSet<PizzeriaData.VipLvl>>();
 
