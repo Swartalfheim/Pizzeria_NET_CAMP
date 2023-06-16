@@ -1,4 +1,4 @@
-﻿namespace PizzaProject
+﻿namespace PizzaProject.Enums
 {
     public enum TakeIngredientResult
     {
