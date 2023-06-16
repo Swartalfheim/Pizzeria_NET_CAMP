@@ -2,7 +2,7 @@
 
 namespace PizzaProject.Team2.Abstractions
 {
-    public interface IOffer : IStorageable
+    public interface IOffer : IStorageable, IEquatable<IOffer>
     {
         enum Size
         {
