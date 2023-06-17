@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using PizzaProject.Interfaces;
 
 namespace PizzaProject.Staff
 {
@@ -15,7 +16,7 @@ namespace PizzaProject.Staff
             Task.Factory.StartNew(ProcessOrders, TaskCreationOptions.LongRunning);
         }
 
-        public Chef GetChefByName(string name)
+        public Chef? GetChefByName(string name)
         {
             return Chefs.Find(chef => chef.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
@@ -34,7 +35,7 @@ namespace PizzaProject.Staff
         {
             foreach (var order in _orderQueue.GetConsumingEnumerable())
             {
-                Chef freeChef = null;
+                Chef? freeChef = null;
                 lock (_chefLock)
                 {
                     freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.ContainsKey(order));

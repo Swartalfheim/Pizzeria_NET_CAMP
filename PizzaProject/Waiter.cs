@@ -1,7 +1,10 @@
-﻿namespace PizzaProject
+﻿using PizzaProject.Interfaces;
+
+namespace PizzaProject
 {
     public class Waiter : IStaff
     {
-        public string Info => throw new NotImplementedException();
+        private string _name;
+        public string Info => _name;
     }
 }

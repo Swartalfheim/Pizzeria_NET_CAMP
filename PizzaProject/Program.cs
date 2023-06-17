@@ -1,4 +1,5 @@
 ﻿using PizzaProject.Staff;
+using System.Net.Http.Headers;
 
 namespace PizzaProject
 {
@@ -42,43 +43,49 @@ namespace PizzaProject
             chef2.DishPrepared += Print;
             PizzeriaData.ChefManager.Chefs.Add(chef2);
 
-            Chef chef3 = new Chef("Marichka", new Dictionary<string, Recipe>
+            /*Chef chef3 = new Chef("Marichka", new Dictionary<string, Recipe>
                                           {
                                               { cakeRecipe.Name, cakeRecipe }
                                           }
             );
             chef3.DishPrepared += Print;
-            PizzeriaData.ChefManager.Chefs.Add(chef3);
+            PizzeriaData.ChefManager.Chefs.Add(chef3);*/
+
+            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Cheese" }, 100);
+            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Cheese" }, 1);
+            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Tomato" }, 100);
+            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Dough" }, 100);
+            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Milk" }, 100);
+
             #endregion
 
 
             // SIMULATION ---------
+
 
             Console.WriteLine(PizzeriaData.Storage.ToString());
             Console.WriteLine(new string('-', 20));
 
             PizzeriaData.ChefManager.AddOrder("Pizza");
             PizzeriaData.ChefManager.AddOrder("Cake");
-
-            PizzeriaData.ChefManager.StopProcessingOrders(); // зупинка роботи менеджера шефів
-
-            Console.ReadKey();
-
-            PizzeriaData.ChefManager.AddOrder("Pizza");
-            PizzeriaData.ChefManager.AddOrder("Cake");
-            PizzeriaData.ChefManager.AddOrder("Cake");
             PizzeriaData.ChefManager.AddOrder("Cake");
 
+            /*PizzeriaData.ChefManager.StopProcessingOrders(); // зупинка роботи менеджера шефів*/
 
-            Console.ReadKey();
-            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Cheese" }, 100);
-            PizzeriaData.Storage.PutIngredient(new Ingredient() { Name = "Milk" }, 100);
+            /*            Console.ReadKey();
+
+                        PizzeriaData.ChefManager.AddOrder("Pizza");
+                        PizzeriaData.ChefManager.AddOrder("Cake");
+                        PizzeriaData.ChefManager.AddOrder("Cake");
+                        PizzeriaData.ChefManager.AddOrder("Cake");*/
+
 
             Console.ReadKey();
             Console.WriteLine(new string('-', 20));
             Console.WriteLine(PizzeriaData.Storage.ToString());
         }
 
+        // Для виводу інформації кухарів
         public static void Print(string name, string dishName)
         {
             Console.WriteLine($"Chef {name} has cooked {dishName}");

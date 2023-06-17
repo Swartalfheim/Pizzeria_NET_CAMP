@@ -1,6 +1,8 @@
-﻿namespace PizzaProject.Staff
+﻿using PizzaProject.Interfaces;
+
+namespace PizzaProject.Staff
 {
-    public class Chef
+    public class Chef : IStaff
     {
         public delegate void DishPreparedHandler(string chefName, string dishName);
         public event DishPreparedHandler? DishPrepared;

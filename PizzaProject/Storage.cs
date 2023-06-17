@@ -1,22 +1,17 @@
-﻿using System.Text;
+﻿using System.Collections.Concurrent;
+using System.Text;
 using PizzaProject.Enums;
 
 namespace PizzaProject
 {
     public class Storage
     {
-        private Dictionary<Ingredient, uint> _ingredientStorage;
-        private Dictionary<string, uint> _preparedDishes = new Dictionary<string, uint>();
+        private ConcurrentDictionary<Ingredient, uint> _ingredientStorage = new();
+        private ConcurrentDictionary<string, uint> _preparedDishes = new();
 
         public Storage()
         {
-            _ingredientStorage = new Dictionary<Ingredient, uint>
-            {
-                { new Ingredient { Name = "Cheese" }, 2},
-                { new Ingredient { Name = "Tomato" }, 6},
-                { new Ingredient { Name = "Dough" }, 2},
-                { new Ingredient { Name = "Milk" }, 1},
-            };
+            _ingredientStorage = new ConcurrentDictionary<Ingredient, uint>();
         }
 
         public Storage(Dictionary<Ingredient, uint> ingredientStorage)
@@ -25,48 +20,55 @@ namespace PizzaProject
             {
                 throw new ArgumentNullException(nameof(ingredientStorage));
             }
-            
-            _ingredientStorage = new Dictionary<Ingredient, uint>(ingredientStorage);
+
+            _ingredientStorage = new ConcurrentDictionary<Ingredient, uint>(ingredientStorage);
         }
 
         public void PutIngredient(Ingredient ingredient, uint quantity = 1)
         {
-            if (!_ingredientStorage.ContainsKey(ingredient))
-            {
-                _ingredientStorage.Add(ingredient, quantity);
-                return;
-            }
-
-            _ingredientStorage[ingredient] += quantity;
+            _ingredientStorage.AddOrUpdate(ingredient, quantity, (key, oldValue) => oldValue + quantity);
         }
 
         public void PutDish(string name)
         {
-            if (_preparedDishes.ContainsKey(name))
+            _preparedDishes.AddOrUpdate(name, 1, (key, oldValue) => oldValue + 1);
+        }
+        public TakeResult TakeDish(string dishName, uint quantity = 1)
+        {
+            if (_preparedDishes.TryGetValue(dishName, out uint oldValue))
             {
-                _preparedDishes[name]++;
+                if (oldValue >= quantity)
+                {
+                    uint newValue = oldValue - quantity;
+                    if (_preparedDishes.TryUpdate(dishName, newValue, oldValue))
+                    {
+                        return TakeResult.SuccessfullyTaken;
+                    }
+                }
+                else
+                {
+                    return TakeResult.OutOfValue;
+                }
             }
-            else
-            {
-                _preparedDishes.Add(name, 1);
-            }
+
+            return TakeResult.NotFoundIngredient;
         }
 
-        public TakeIngredientResult TakeIngredient(Ingredient ingredient)
+        public TakeResult TakeIngredient(Ingredient ingredient, uint quantity = 1)
         {
             Ingredient keyIngredient = new Ingredient { Name = ingredient.Name };
             if (!_ingredientStorage.ContainsKey(keyIngredient))
             {
-                return TakeIngredientResult.NotFoundIngredient;
+                return TakeResult.NotFoundIngredient;
             }
 
-            if (_ingredientStorage[keyIngredient] == 0)
+            if (_ingredientStorage[keyIngredient] == 0 || _ingredientStorage[keyIngredient] < quantity)
             {
-                return TakeIngredientResult.OutOfIngredient;
+                return TakeResult.OutOfValue;
             }
 
-            _ingredientStorage[keyIngredient] -= 1;
-            return TakeIngredientResult.SuccessfullyTaken;
+            _ingredientStorage[keyIngredient] -= quantity;
+            return TakeResult.SuccessfullyTaken;
         }
 
         public bool CheckIngredientsAvailability(Recipe recipe)

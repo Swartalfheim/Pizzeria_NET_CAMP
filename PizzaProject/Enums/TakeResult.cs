@@ -1,9 +1,9 @@
 ﻿namespace PizzaProject.Enums
 {
-    public enum TakeIngredientResult
+    public enum TakeResult
     {
         NotFoundIngredient,
-        OutOfIngredient,
+        OutOfValue,
         SuccessfullyTaken
     }
 }
