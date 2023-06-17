@@ -12,9 +12,8 @@ namespace PizzaProject.Costumer_Payment
 
         private decimal _moneyAmount;
 
-        //public decimal MoneyAmount => _moneyAmount; //тільки для відображення - погано
-
         public PaymentCategory Category { get; private set; }
+
         public Wallet(decimal amount, PaymentCategory category)
         {
             _moneyAmount = amount;
@@ -28,16 +27,11 @@ namespace PizzaProject.Costumer_Payment
 
             _moneyAmount -= count;
             receiver.ReceivePayment(count);
-
-            //оповіщення симулятора/візуалізатора про поточний стан рахунку - event?
-
             return true;
         }
         public void ReceivePayment(decimal count)
         {
             _moneyAmount += count;
-
-            //оповіщення симулятора/візуалізатора про поточний стан рахунку - event?
         }
     }
 }

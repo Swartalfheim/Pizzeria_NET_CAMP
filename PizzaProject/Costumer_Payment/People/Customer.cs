@@ -3,7 +3,7 @@ using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject.Costumer_Payment.People
 {
-    class Customer : IPerson
+    public class Customer : IPerson
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
@@ -13,7 +13,7 @@ namespace PizzaProject.Costumer_Payment.People
 
         private HashSet<Wallet> _wallets;
 
-        private uint _currentOrderId; //Каса передає?
+        private uint _currentOrderId;
 
         public Customer(string name, HashSet<Wallet> wallets)
         {
@@ -31,70 +31,49 @@ namespace PizzaProject.Costumer_Payment.People
             _wallets = new HashSet<Wallet>(wallets);
         }
 
-        //public void GenerateCustomer() //CustomerGenerator
-        //{
-        //Name
-
-        //VipLvls
-
-        //Wallets
-        //Random rand = new Random();
-        //var min = Enum.GetValues(typeof(Wallet.PaymentCategory)).Cast<int>().Min();
-        //var max = Enum.GetValues(typeof(Wallet.PaymentCategory)).Cast<int>().Max();
-
-        //HashSet<Wallet> wallets = new HashSet<Wallet>() { new Wallet(new decimal(rand.NextDouble() * (100000 - 200) + 200), (Wallet.MoneyCategory)rand.Next(min, max));
-        //}
-
         public void SetVipLvls(HashSet<VipLvl> vipLvls)
         {
             _vipLvls = new HashSet<VipLvl>(vipLvls);
         }
-        public void MakeOrder(HashSet<ICashRegister> cashRegs/*ref bool select*/) //pizzeria -> ICashRegisters
+
+        public void SetOrderId(uint orderId)
         {
-            //вибір cashReg за меншою кількістю людей у черзі
+            _currentOrderId = orderId;
+        }
+
+        public void GetInLine(HashSet<ICashRegister> cashRegs) //pizzeria -> ICashRegisters
+        {
             var cashreg = cashRegs.Where(c => c.CustomersInQueue == cashRegs.Min(c => c.CustomersInQueue)).FirstOrDefault();
+            cashreg.AddToQueue(this);
+        }
 
-            cashreg.MakeOrder(this); //якщо з черги, то можна і без цього
+        public void MakeOrder(ICashRegister cashreg) 
+        {
+            var menu = cashreg.Menu; //dish, additional, price = menu item
 
-            var menu = cashreg.GetMenu; //dish, additional, price = menu item
-
-            //передача страв рядками? 
-
-            //!!! Category - загальні додаткові інгредієнти, але є і унікальні 
-
-            //var dish = menu.Dishes.Where(d => d.Name.Equals("Піцца Гавайська")); 
-            // чи 
-            //var dish = menu.GetDish("Піцца Гавайська");
-            // чи
-            //menu.MenuItems.Where(...)
-
-            //var dishAdditional = menu.GetAdditional(dish);
-            //var selectedAdditional.Add(dishAdditional.Where(d => d.Name.Equals("Томати").FirstOrDegault()));
-
-            //cashreg.AddDishToOrder(dish, selectedAdditional);
-            //cashreg.AddDishToOrder(dish, selectedAdditional);
-            //cashreg.AddDishToOrder(dish, selectedAdditional);
+            //!!! порядковий номер страв, колекція порядк номерів дод. інгр
             
-            
-            /*
-             * новий потік для вибьору страв Парам: меню, каса, 
-             while(select){
-            thread.Sleap(5000)
-            }
-             
-             */
+            FormOrder();
+            //локальний кошик з номерів страв 
+            //SelectDishes
+            // 1, (2,3)
+            //2
+            //3, (1)
 
             Pay(cashreg, Wallet.PaymentCategory.Card); //pref - з тих, що є
         }
 
-        public void GenerateOrder() //
+        private void FormOrder()
         {
-
+            //Thread.Sleap(rand)
+            //SelectDish
         }
-        public void SelectDish(ICashRegister cahsReg, string dishName)
+
+        public void SelectDish(uint dishId, int[] additionalIds)
         {
             //cashReg.AddDish()
         }
+
         private bool Pay(ICashRegister cashReg, Wallet.PaymentCategory prefferdWayToPay)
         {
             Wallet wayToPay = _wallets.Where(w => w.Category == prefferdWayToPay).First();
@@ -117,6 +96,7 @@ namespace PizzaProject.Costumer_Payment.People
             }
             return false;
         }
+
         public override string ToString()
         {
             return $"Id: {Id} Name: {Name} (VipLvls: {string.Join(", ", _vipLvls)})";
