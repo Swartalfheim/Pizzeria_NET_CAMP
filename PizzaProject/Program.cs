@@ -57,12 +57,12 @@ namespace PizzaProject
             HashSet<IStaff> staff = new HashSet<IStaff>();
             staff = chefs.Select(x => (IStaff)x).ToHashSet();
 
-            ChefManager chefManager = new ChefManager("Big Bos", chefs);
+            ChefManager chefManager = new ChefManager("Big Bos", chefs, productStorage);
 
-            Waiter waiter1 = new Waiter("Borus Waiter", productStorage);
-            Waiter waiter2 = new Waiter("Anton Waiter", productStorage);
+            Waiter waiter1 = new Waiter("Tony Ferguson", productStorage);
+            Waiter waiter2 = new Waiter("Muhammad Ali", productStorage);
 
-            Waiter.DishDelivered += PrintWaiterNotify;
+            Waiter.OrderDelivered += PrintWaiterNotify;
             
 
             HashSet<Waiter> waiters = new HashSet<Waiter>();
@@ -100,9 +100,9 @@ namespace PizzaProject
             Console.WriteLine($"Chef {name} has COOKED {dishName}");
         }
 
-        public static void PrintWaiterNotify(string name, string dishName)
+        public static void PrintWaiterNotify(string name, Order order)
         {
-            Console.WriteLine($"Waiter {name} has DELIVERED {dishName}");
+            Console.WriteLine($"Waiter {name} has DELIVERED {order}");
         }
 
         public static void PrintOrderWaiterNotify(Order order)

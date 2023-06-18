@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using PizzaProject.Dishes_Orders.Abstractions;
 using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Storage_Waiter.Interfaces;
@@ -10,12 +11,15 @@ namespace PizzaProject.Storage_Waiter.Staff
         private string _name;
         private readonly object _chefLock = new ();
         private BlockingCollection<IOffer> _dishesList = new();
+        private Dictionary<Order, List<IOffer>> _ordersBeingPrepared = new();
+        private Storage _storage = new ();
         public List<Chef> Chefs { get; set; }
 
-        public ChefManager(string name, List<Chef> chefsIn)
+        public ChefManager(string name, List<Chef> chefsIn, Storage storage)
         {
             _name = name;
             Chefs = chefsIn;
+            _storage = storage;
             Task.Factory.StartNew(ProcessOrders, TaskCreationOptions.LongRunning);
         }
 
@@ -31,9 +35,11 @@ namespace PizzaProject.Storage_Waiter.Staff
                 StartProcessingOrders();
             }
 
+            _ordersBeingPrepared[order] = new List<IOffer>();
             foreach (var item in order.FoodSet)
             {
                 _dishesList.Add(item.Key);
+                _ordersBeingPrepared[order].Add(item.Key);
             }
         }
 
@@ -55,6 +61,17 @@ namespace PizzaProject.Storage_Waiter.Staff
                         try
                         {
                             freeChef.Cook(order);
+                            lock (_ordersBeingPrepared)
+                            {
+                                var cookedOrder = _ordersBeingPrepared.First(o => o.Value.Contains(order)).Key;
+                                _ordersBeingPrepared[cookedOrder].Remove(order);
+
+                                if (!_ordersBeingPrepared[cookedOrder].Any()) // якщо всі блюда замовлення пригтовані
+                                {
+                                    _storage.PutOrder(cookedOrder); // додати замовлення до Storage коли всі блюда приготовлені
+                                    _ordersBeingPrepared.Remove(cookedOrder);
+                                }
+                            }
                         }
                         catch (Exception ex)
                         {

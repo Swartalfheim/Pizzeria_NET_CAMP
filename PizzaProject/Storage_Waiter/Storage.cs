@@ -10,8 +10,12 @@ namespace PizzaProject
     public class Storage
     {
         private ConcurrentDictionary<Ingredient, uint> _ingredientStorage = new();
+
         private ConcurrentDictionary<IOffer, uint> _preparedDishes = new();
 
+        private ConcurrentDictionary<Order, uint> _preparedOrders = new();
+
+        public ConcurrentDictionary<Order, uint> PreparedOrders => _preparedOrders;
         public ConcurrentDictionary<IOffer, uint> PreparedDishes => _preparedDishes;
 
         public Storage()
@@ -48,6 +52,23 @@ namespace PizzaProject
         {
             _ingredientStorage.AddOrUpdate(ingredient, quantity, (key, oldValue) => oldValue + quantity);
         }
+        public TakeResult TakeIngredient(Ingredient ingredient, uint quantity = 1)
+        {
+            Ingredient keyIngredient = new Ingredient(ingredient.Name);
+            if (!_ingredientStorage.ContainsKey(keyIngredient))
+            {
+                return TakeResult.NotFound;
+            }
+
+            if (_ingredientStorage[keyIngredient] == 0 || _ingredientStorage[keyIngredient] < quantity)
+            {
+                return TakeResult.OutOfValue;
+            }
+
+            _ingredientStorage[keyIngredient] -= quantity;
+            return TakeResult.SuccessfullyTaken;
+        }
+
 
         public void PutDish(IOffer name)
         {
@@ -71,24 +92,33 @@ namespace PizzaProject
                 }
             }
 
-            return TakeResult.NotFoundIngredient;
+            return TakeResult.NotFound;
         }
 
-        public TakeResult TakeIngredient(Ingredient ingredient, uint quantity = 1)
+        public void PutOrder(Order order)
         {
-            Ingredient keyIngredient = new Ingredient(ingredient.Name);
-            if (!_ingredientStorage.ContainsKey(keyIngredient))
+            _preparedOrders.AddOrUpdate(order, 1, (key, oldValue) => oldValue + 1);
+        }
+
+        public TakeResult TakeOrder(Order order, uint quantity = 1)
+        {
+            if (_preparedOrders.TryGetValue(order, out uint oldValue))
             {
-                return TakeResult.NotFoundIngredient;
+                if (oldValue >= quantity)
+                {
+                    uint newValue = oldValue - quantity;
+                    if (_preparedOrders.TryUpdate(order, newValue, oldValue))
+                    {
+                        return TakeResult.SuccessfullyTaken;
+                    }
+                }
+                else
+                {
+                    return TakeResult.OutOfValue;
+                }
             }
 
-            if (_ingredientStorage[keyIngredient] == 0 || _ingredientStorage[keyIngredient] < quantity)
-            {
-                return TakeResult.OutOfValue;
-            }
-
-            _ingredientStorage[keyIngredient] -= quantity;
-            return TakeResult.SuccessfullyTaken;
+            return TakeResult.NotFound;
         }
 
         public bool CheckIngredientsAvailability(Recipe recipe)

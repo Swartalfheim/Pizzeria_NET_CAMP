@@ -1,11 +1,12 @@
-﻿using PizzaProject.Enums;
+﻿using PizzaProject.Dishes_Orders.Implementations;
+using PizzaProject.Enums;
 using PizzaProject.Storage_Waiter.Interfaces;
 
 namespace PizzaProject
 {
     public class Waiter : IStaff
     {
-        public static event Action<string, string>? DishDelivered;
+        public static event Action<string, Order>? OrderDelivered;
 
         private string _name;
         private Storage _storage;
@@ -34,14 +35,14 @@ namespace PizzaProject
                         break;
                     }
 
-                    foreach (var dish in _storage.PreparedDishes)
+                    foreach (var order in _storage.PreparedOrders)
                     {
-                        if (dish.Value > 0)
+                        if (order.Value > 0)
                         {
                             Task.Delay(2000).Wait();
-                            if (_storage.TakeDish(dish.Key) is TakeResult.SuccessfullyTaken)
+                            if (_storage.TakeOrder(order.Key) is TakeResult.SuccessfullyTaken)
                             {
-                                DishDelivered?.Invoke(_name, dish.Key.Name);
+                                OrderDelivered?.Invoke(_name, order.Key);
                             }
                         }
                     }

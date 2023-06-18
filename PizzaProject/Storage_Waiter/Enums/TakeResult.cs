@@ -2,7 +2,7 @@
 {
     public enum TakeResult
     {
-        NotFoundIngredient,
+        NotFound,
         OutOfValue,
         SuccessfullyTaken
     }
