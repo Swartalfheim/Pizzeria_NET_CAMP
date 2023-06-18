@@ -39,7 +39,7 @@ namespace PizzaProject
                     {
                         if (order.Value > 0)
                         {
-                            Task.Delay(2000).Wait();
+                            Task.Delay(1000).Wait();
                             if (_storage.TakeOrder(order.Key) is TakeResult.SuccessfullyTaken)
                             {
                                 OrderDelivered?.Invoke(_name, order.Key);
