@@ -66,6 +66,7 @@ namespace PizzaProject.Storage_Waiter.Staff
                 {
                     _orderQueue.Add(order);
                 }
+                Thread.Sleep(1000);
             }
         }
         public void StartProcessingOrders() // Відновлення роботи ChefManager

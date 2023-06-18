@@ -25,42 +25,19 @@ namespace PizzaProject.Menu_Loyality.Menu
 
         private Menu() 
         {
-            Ingredient ingredient1 = new Ingredient("Tomato");
-            Ingredient ingredient2 = new Ingredient("Beef");
-            Ingredient ingredient3 = new Ingredient("Mushroom");
-            Ingredient ingredient4 = new Ingredient("Orange");
 
-            Dictionary<Ingredient, uint> ingrads1 = new Dictionary<Ingredient, uint>();
-            ingrads1.Add(ingredient1, 3);
-            ingrads1.Add(ingredient2, 1);
-            ingrads1.Add(ingredient3, 2);
-
-            Dictionary<Ingredient, uint> ingrads2 = new Dictionary<Ingredient, uint>();
-            ingrads2.Add(ingredient1, 3);
-            ingrads2.Add(ingredient2, 1);
-
-            Dictionary<Ingredient, uint> ingrads3 = new Dictionary<Ingredient, uint>();
-            ingrads3.Add(ingredient4, 4);
+            Dictionary<string, Recipe> resultRecepie = Filler.GetForFirstChef();
 
 
-            Recipe recipe1 = new Recipe("Recipe Name 1", ingrads1);
+            Pizza pizza1 = new Pizza("Margarita", "First pizza", resultRecepie["Margarita"], Pizza.PizzaDough.Thick, IOffer.Size.Large);
+            Pizza pizza2 = new Pizza("Pepperoni", "Second pizza", resultRecepie["Pepperoni"], Pizza.PizzaDough.WithFilling, IOffer.Size.Small);
 
-            Recipe recipe2 = new Recipe("Recipe Name 2", ingrads2);
-
-            Recipe recipe3 = new Recipe("Recipe Name 3", ingrads3);
-
-            Pizza pizza1 = new Pizza("Margarita", "First pizza", recipe1, Pizza.PizzaDough.Thick, IOffer.Size.Large);
-            Pizza pizza2 = new Pizza("Pepperoni", "Second pizza", recipe2, Pizza.PizzaDough.WithFilling, IOffer.Size.Small);
-
-            Juice juice1 = new Juice("Juice", "Delicius juice", recipe3, Juice.JuiceTaste.Orange, IOffer.Size.Large);
+            Juice juice1 = new Juice("Juice", "Delicius juice", resultRecepie["Juice"], Juice.JuiceTaste.Orange, IOffer.Size.Large);
 
 
             _dishes.Add(pizza1, 550);
             _dishes.Add(pizza2, 450);
             _dishes.Add(juice1, 300);
-
-
-
 
         }
 

@@ -1,14 +1,10 @@
 ﻿using PizzaProject.Dishes_Orders.Implementations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PizzaProject
 {
     public static class Filler
     {
+        private static Random _random = new Random();
         public static List<Ingredient> GetIngredients()
         {
             List<Ingredient> _ingredients = new List<Ingredient>
@@ -26,15 +22,27 @@ namespace PizzaProject
 
         public static Dictionary<Ingredient, uint> GetIngredientForStorage()
         {
-            Random random = new Random();
 
             Dictionary<Ingredient, uint> dictionary = GetIngredients().ToDictionary(
                 ingredient => ingredient,
-                ingredient => (uint)random.Next(10, 201)
+                ingredient => (uint)_random.Next(40, 100)
             );
 
             return dictionary;
         }
+
+        public static Dictionary<Ingredient, uint> ResponsByIngredient(List<string> ingrIncome)
+        {
+            List<Ingredient> _ingredients = GetIngredients();
+
+            Dictionary<Ingredient, uint> dictionary = GetIngredients().Where(x => ingrIncome.Contains(x.Name)).ToDictionary(
+                ingredient => ingredient,
+                ingredient => (uint)_random.Next(5, 20)
+            );
+
+            return dictionary;
+        }
+
 
         public static Dictionary<string, Recipe> GetForFirstChef()
         {
@@ -56,11 +64,11 @@ namespace PizzaProject
             ingrads3.Add(ingredient4, 4);
 
 
-            Recipe recipe1 = new Recipe("Pepperoni", ingrads1);
+            Recipe recipe1 = new Recipe("Pepperoni", ingrads1, 4);
 
-            Recipe recipe2 = new Recipe("Margarita", ingrads2);
+            Recipe recipe2 = new Recipe("Margarita", ingrads2, 3);
 
-            Recipe recipe3 = new Recipe("Juice", ingrads3);
+            Recipe recipe3 = new Recipe("Juice", ingrads3, 1);
 
             Dictionary<string, Recipe> result = new Dictionary<string, Recipe>();
             result.Add(recipe1.Name, recipe1);

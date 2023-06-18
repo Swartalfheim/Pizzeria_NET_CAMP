@@ -8,6 +8,7 @@ namespace PizzaProject.Storage_Waiter.Staff
     {
         public delegate void DishPreparedHandler(string chefName, string dishName);
         public event DishPreparedHandler? DishPrepared;
+        public static event Action UpdateIngredient;
 
         public string Name { get; set; }
         public bool IsBusy { get; set; }
@@ -34,7 +35,12 @@ namespace PizzaProject.Storage_Waiter.Staff
 
             if (!_storage.CheckIngredientsAvailability(recipe)) // перевірка чи є інгредієнти на складі
             {
+                UpdateIngredient?.Invoke();
+
+                Thread.Sleep(50);
+
                 throw new Exception($"Not all ingredients are available for the dish {dishName}");
+                
             }
 
             foreach (KeyValuePair<Ingredient, uint> ingredient in recipe.Ingredients)

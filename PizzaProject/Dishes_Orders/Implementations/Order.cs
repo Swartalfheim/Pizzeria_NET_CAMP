@@ -1,4 +1,5 @@
 ﻿using PizzaProject.Dishes_Orders.Abstractions;
+using System.Text;
 
 namespace PizzaProject.Dishes_Orders.Implementations
 {
@@ -33,6 +34,16 @@ namespace PizzaProject.Dishes_Orders.Implementations
             {
                 _foodSet.Add(new KeyValuePair<IOffer, uint>(dish, amount));
             }
+        }
+
+        public override string? ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in _foodSet)
+            {
+                sb.Append($"{item.Key.Name} ");
+            }
+            return sb.ToString();
         }
 
         ////ціни треба брати з меню (замість Dictionary<IOffer, decimal> priceList)

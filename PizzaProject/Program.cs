@@ -2,6 +2,7 @@
 using PizzaProject.Costumer_Payment;
 using PizzaProject.Costumer_Payment.CashRegisters;
 using PizzaProject.CustomersGeneration;
+using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Menu_Loyality.Loyality;
 using PizzaProject.Menu_Loyality.Menu;
 using PizzaProject.Simulation;
@@ -17,7 +18,7 @@ namespace PizzaProject
         {
             var customerGenerator = new CustomerGenerator(new DefaultCustomerGenerator(10));
             //var CustomerGenerator = new CustomerGenerator(new RandomCustomerGenerator(0, 15));
-            var users = customerGenerator.GenerateVisitorsForSimulation();
+            //var users = customerGenerator.GenerateVisitorsForSimulation();
 
 
 
@@ -34,6 +35,11 @@ namespace PizzaProject
             cashRegisters.Add(new CashRegister(menu, wallets));
             cashRegisters.Add(new CashRegister(menu, wallets));
 
+            foreach (var item in cashRegisters)
+            {
+                item.NewOrderApperiance += PrintOrderWaiterNotify;
+            }
+
             Storage productStorage = new Storage(Filler.GetIngredientForStorage());
 
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
@@ -45,6 +51,7 @@ namespace PizzaProject
                 new Chef("Ivan", productStorage, Filler.GetForFirstChef())
             };
 
+            
             chefs.ForEach(x => x.DishPrepared += PrintChefNotify);
 
             HashSet<IStaff> staff = new HashSet<IStaff>();
@@ -52,10 +59,22 @@ namespace PizzaProject
 
             ChefManager chefManager = new ChefManager("Big Bos", chefs);
 
+            Waiter waiter1 = new Waiter("Borus Waiter", productStorage);
+            Waiter waiter2 = new Waiter("Anton Waiter", productStorage);
+
+            Waiter.DishDelivered += PrintWaiterNotify;
+            
+
+            HashSet<Waiter> waiters = new HashSet<Waiter>();
+            waiters.Add(waiter1);
+            waiters.Add(waiter2);
+
+
             Manager manager = new Manager(menu);
 
-            PizzeriaData pizzeriaData = new PizzeriaData(staff, manager, chefManager, loyaltyProgram, menu, cashRegisters, productStorage);
+            PizzeriaData pizzeriaData = new PizzeriaData(waiters, staff, manager, chefManager, loyaltyProgram, menu, cashRegisters, productStorage);
 
+            Chef.UpdateIngredient += pizzeriaData.RevisionStorage;
 
             Admin admin = new Admin(pizzeriaData);
 
@@ -65,15 +84,7 @@ namespace PizzaProject
 
             Simulator simulator = new Simulator(customerGenerator, pizzeria);
 
-            //foreach (var user in users)
-            //{
-            //    Console.WriteLine(user.Name);
-            //    foreach (var lvl in user.VipLvls)
-            //    {
-            //        System.Console.WriteLine(lvl);
-            //    }
-            //    System.Console.WriteLine();
-            //}
+
 
 
 
@@ -91,7 +102,12 @@ namespace PizzaProject
 
         public static void PrintWaiterNotify(string name, string dishName)
         {
-            Console.WriteLine($"Chef {name} has DELIVERED {dishName}");
+            Console.WriteLine($"Waiter {name} has DELIVERED {dishName}");
+        }
+
+        public static void PrintOrderWaiterNotify(Order order)
+        {
+            Console.WriteLine($"\tOrder: {string.Join(" ", order)} Formed");
         }
 
     }

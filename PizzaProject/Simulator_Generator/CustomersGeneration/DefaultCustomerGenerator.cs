@@ -21,16 +21,17 @@ namespace PizzaProject.Simulator_Generator.CustomersGeneration
         public List<Customer> GenerateVisitors()
         {
             Random r = new Random();
-            List<Customer> customers = new List<Customer>((int)_customerCount);
-            for (int i = 0; i < customers.Capacity; i++)
+            int customerNumber = r.Next(1, 11);
+            List<Customer> customers = new List<Customer>();
+            for (uint i = 0; i < customerNumber; i++)
             {
                 string userName = Guid.NewGuid().ToString();
 
                 //VipLvls
-                HashSet<VipLvl> vipLvls = CustomerGenerator.GenerateVipLvls(r.Next(1, 3), Enum.GetValues(typeof(VipLvl)));
+                HashSet<VipLvl> vipLvls = CustomerGenerator.GenerateVipLvls(r.Next(1, Enum.GetValues(typeof(VipLvl)).Length), Enum.GetValues(typeof(VipLvl)));
 
                 //Wallets
-                HashSet<Wallet> wallets = CustomerGenerator.GenerateWallets(r.Next(1, 4), Enum.GetValues(typeof(Wallet.PaymentCategory)));
+                HashSet<Wallet> wallets = CustomerGenerator.GenerateWallets(r.Next(1, Enum.GetValues(typeof(Wallet.PaymentCategory)).Length), Enum.GetValues(typeof(Wallet.PaymentCategory)));
 
                 Customer customer = new Customer(userName, vipLvls, wallets);
                 customers.Add(customer);

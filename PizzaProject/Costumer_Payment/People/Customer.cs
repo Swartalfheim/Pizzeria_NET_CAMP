@@ -50,17 +50,9 @@ namespace PizzaProject.Costumer_Payment.People
         public void MakeOrder(ICashRegister cashreg) 
         {
             var menu = cashreg.Menu; //dish, additional, price = menu item
-
-            //!!! порядковий номер страв, колекція порядк номерів дод. інгр
             
             FormOrder(cashreg);
-            //локальний кошик з номерів страв 
-            //SelectDishes
-            // 1, (2,3)
-            //2
-            //3, (1)
 
-            //Pay(cashreg, Wallet.PaymentCategory.Card); //pref - з тих, що є
             Pay(cashreg, _wallets.First().Category);
         }
 
@@ -75,9 +67,6 @@ namespace PizzaProject.Costumer_Payment.People
             }
 
             cashreg.AddDishesToOrder(dishes);
-
-            //Thread.Sleap(rand)
-            //SelectDish
         }
 
         public void SelectDish(uint dishId, int[] additionalIds)

@@ -11,6 +11,7 @@ namespace PizzaProject.Administration
     {
         private Manager _manager;
         private HashSet<IStaff> _staff;
+        private HashSet<Waiter> _waiters;
         private ChefManager _chefManager;
         //public static ChefManager ChefManager { get; set; } = new ChefManager("Muhammad");
 
@@ -18,12 +19,14 @@ namespace PizzaProject.Administration
         private Menu _menu;
         private HashSet<ICashRegister> _cashRegs;
 
-        public Storage ProductStorage { get; }
+        public Storage ProductStorage { get; private set; }
 
         //public static Storage Storage { get; set; } = new Storage();
 
-        public PizzeriaData(HashSet<IStaff> staff, Manager manager, ChefManager chefManager, LoyaltyProgram loyaltyProgram, Menu menu, HashSet<ICashRegister> cashRegs, Storage productStorage)
+        public PizzeriaData(HashSet<Waiter> waiters, HashSet<IStaff> staff, Manager manager, ChefManager chefManager, LoyaltyProgram loyaltyProgram, Menu menu, HashSet<ICashRegister> cashRegs, Storage productStorage)
         {
+            _waiters = waiters;
+
             _staff = new HashSet<IStaff>();
             foreach (var item in staff)
             {
@@ -46,7 +49,7 @@ namespace PizzaProject.Administration
             _cashRegs = cashRegs;
 
             //_productStorage = productStorage;
-            ProductStorage = new Storage();
+            ProductStorage = productStorage;
 
         }
 
@@ -57,6 +60,11 @@ namespace PizzaProject.Administration
         public Menu Menu { get => _menu; }
         //public IEnumerable<ICashRegister> CashRegs { get => _cashRegs; }
         public HashSet<ICashRegister> CashRegs { get => _cashRegs; }
+
+        public void RevisionStorage()
+        {
+            ProductStorage.RequestIngredient();
+        }
 
 
         public string GetStaffInfo(IStaff staff)
@@ -104,6 +112,13 @@ namespace PizzaProject.Administration
             }
         }
 
+        public void StartWaiter()
+        {
+            foreach (var item in _waiters)
+            {
+                item.StartWorking();
+            }
+        }
 
 
         public enum VipLvl

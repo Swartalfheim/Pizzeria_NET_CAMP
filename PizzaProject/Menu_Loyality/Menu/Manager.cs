@@ -6,10 +6,7 @@ using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject.Menu_Loyality.Menu
 {                   
-    
-                                                                                /// <summary>
-                                                                                /// Remake
-                                                                                /// </summary>
+
     public class Manager : IStaff
     {
         private Menu _menu;

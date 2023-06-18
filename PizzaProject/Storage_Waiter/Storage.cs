@@ -18,6 +18,21 @@ namespace PizzaProject
             _ingredientStorage = new ConcurrentDictionary<Ingredient, uint>();
         }
 
+        public void RequestIngredient()
+        {
+            List<string> ingredient = _ingredientStorage.Where(x => x.Value < 30).Select(x => x.Key.Name).ToList();
+
+            Dictionary<Ingredient, uint> ingredientNew = Filler.ResponsByIngredient(ingredient);
+
+            foreach (var item in ingredientNew)
+            {
+                PutIngredient(item.Key, item.Value);
+            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Storage Renyve ingredients!!!");
+            Console.ResetColor();
+        }
+
         public Storage(Dictionary<Ingredient, uint> ingredientStorage)
         {
             if (ingredientStorage == null)
@@ -111,5 +126,7 @@ namespace PizzaProject
             }
             return result.ToString();
         }
+
+        // request 
     }
 }

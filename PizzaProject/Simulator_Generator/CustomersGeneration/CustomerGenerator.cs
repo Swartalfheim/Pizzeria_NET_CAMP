@@ -9,19 +9,25 @@ namespace PizzaProject.CustomersGeneration
     {
         private ICustomerGenerationStrategy _customerGenerationStrategy;
 
+
         public CustomerGenerator(ICustomerGenerationStrategy customerGenerationStrategy)
         {
-            _customerGenerationStrategy = customerGenerationStrategy;
+             _customerGenerationStrategy = customerGenerationStrategy;
         }
+
+
 
         public List<Customer> GenerateVisitorsForSimulation()
         {
+
             return _customerGenerationStrategy.GenerateVisitors();
+
         }
 
-        public static HashSet<Wallet> GenerateWallets(int amountOfWallets, Array paymentCategories)
+        public static HashSet<Wallet> GenerateWallets(int amountOfWallets, Array paymentCategories, int minMoney = 200, int maxMoney = 100000)
         {
             Random random = new Random();
+            
             try
             {
                 HashSet<Wallet> wallets = new HashSet<Wallet>(amountOfWallets);
@@ -30,7 +36,7 @@ namespace PizzaProject.CustomersGeneration
 
                 for (int i = 0; i < amountOfWallets; i++)
                 {
-                    Wallet wallet = new Wallet(new decimal(random.NextDouble() * (100000 - 200) + 200), randomCategory);
+                    Wallet wallet = new Wallet(new decimal(random.NextDouble() * (maxMoney - minMoney) + minMoney), randomCategory);
                     wallets.Add(wallet);
                 }
                 return wallets;

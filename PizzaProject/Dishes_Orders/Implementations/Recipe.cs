@@ -5,7 +5,7 @@ namespace PizzaProject.Dishes_Orders.Implementations
     public class Recipe
     {
         public string Name { get; set; }
-
+        public uint Time { get; }
         public Dictionary<Ingredient, uint> Ingredients { get; set; }
 
         public enum CookingStage
@@ -17,9 +17,10 @@ namespace PizzaProject.Dishes_Orders.Implementations
         }
         private Dictionary<CookingStage, List<(IStorageable, TimeOnly)>> _cookingStages;
 
-        public Recipe(string name, Dictionary<Ingredient, uint> ingredients)
+        public Recipe(string name, Dictionary<Ingredient, uint> ingredients, uint time)
         {
             Name = name;
+            Time = time * 1000;
             Ingredients = new Dictionary<Ingredient, uint>(ingredients);
         }
 
