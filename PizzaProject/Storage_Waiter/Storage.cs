@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Text;
+using PizzaProject.Dishes_Orders.Abstractions;
 using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Enums;
 
@@ -9,9 +10,9 @@ namespace PizzaProject
     public class Storage
     {
         private ConcurrentDictionary<Ingredient, uint> _ingredientStorage = new();
-        private ConcurrentDictionary<string, uint> _preparedDishes = new();
+        private ConcurrentDictionary<IOffer, uint> _preparedDishes = new();
 
-        public ConcurrentDictionary<string, uint> PreparedDishes => _preparedDishes;
+        public ConcurrentDictionary<IOffer, uint> PreparedDishes => _preparedDishes;
 
         public Storage()
         {
@@ -48,18 +49,18 @@ namespace PizzaProject
             _ingredientStorage.AddOrUpdate(ingredient, quantity, (key, oldValue) => oldValue + quantity);
         }
 
-        public void PutDish(string name)
+        public void PutDish(IOffer name)
         {
             _preparedDishes.AddOrUpdate(name, 1, (key, oldValue) => oldValue + 1);
         }
-        public TakeResult TakeDish(string dishName, uint quantity = 1)
+        public TakeResult TakeDish(IOffer dish, uint quantity = 1)
         {
-            if (_preparedDishes.TryGetValue(dishName, out uint oldValue))
+            if (_preparedDishes.TryGetValue(dish, out uint oldValue))
             {
                 if (oldValue >= quantity)
                 {
                     uint newValue = oldValue - quantity;
-                    if (_preparedDishes.TryUpdate(dishName, newValue, oldValue))
+                    if (_preparedDishes.TryUpdate(dish, newValue, oldValue))
                     {
                         return TakeResult.SuccessfullyTaken;
                     }
@@ -119,9 +120,9 @@ namespace PizzaProject
             }
             else
             {
-                foreach (KeyValuePair<string, uint> item in _preparedDishes)
+                foreach (KeyValuePair<IOffer, uint> item in _preparedDishes)
                 {
-                    result.Append($"{item.Key} - {item.Value}\n");
+                    result.Append($"{item.Key.Name} - {item.Value}\n");
                 }
             }
             return result.ToString();

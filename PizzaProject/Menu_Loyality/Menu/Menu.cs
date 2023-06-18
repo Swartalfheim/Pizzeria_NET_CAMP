@@ -26,13 +26,13 @@ namespace PizzaProject.Menu_Loyality.Menu
         private Menu() 
         {
 
-            Dictionary<string, Recipe> resultRecepie = Filler.GetForFirstChef();
+            List<Recipe> resultRecepie = Filler.GetForFirstChef();
 
 
-            Pizza pizza1 = new Pizza("Margarita", "First pizza", resultRecepie["Margarita"], Pizza.PizzaDough.Thick, IOffer.Size.Large);
-            Pizza pizza2 = new Pizza("Pepperoni", "Second pizza", resultRecepie["Pepperoni"], Pizza.PizzaDough.WithFilling, IOffer.Size.Small);
+            Pizza pizza2 = new Pizza("Pepperoni", "Second pizza", resultRecepie[0], Pizza.PizzaDough.WithFilling, IOffer.Size.Small);
+            Pizza pizza1 = new Pizza("Margarita", "First pizza", resultRecepie[1], Pizza.PizzaDough.Thick, IOffer.Size.Large);     
 
-            Juice juice1 = new Juice("Juice", "Delicius juice", resultRecepie["Juice"], Juice.JuiceTaste.Orange, IOffer.Size.Large);
+            Juice juice1 = new Juice("Juice", "Delicius juice", resultRecepie[2], Juice.JuiceTaste.Orange, IOffer.Size.Large);
 
 
             _dishes.Add(pizza1, 550);

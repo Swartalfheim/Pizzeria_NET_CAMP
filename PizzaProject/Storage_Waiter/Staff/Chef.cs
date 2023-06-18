@@ -1,4 +1,5 @@
-﻿using PizzaProject.Dishes_Orders.Implementations;
+﻿using PizzaProject.Dishes_Orders.Abstractions;
+using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Storage_Waiter.Interfaces;
 using static PizzaProject.Administration.PizzeriaData;
 
@@ -8,52 +9,45 @@ namespace PizzaProject.Storage_Waiter.Staff
     {
         public delegate void DishPreparedHandler(string chefName, string dishName);
         public event DishPreparedHandler? DishPrepared;
-        public static event Action UpdateIngredient;
+        public static event Action? UpdateIngredient;
 
         public string Name { get; set; }
         public bool IsBusy { get; set; }
-        public Dictionary<string, Recipe> Recipes { get; set; } = new Dictionary<string, Recipe>();
+        public List<Recipe> Recipes { get; set; } = new ();
 
         private Storage _storage;
 
-        public Chef(string name, Storage storage, Dictionary<string, Recipe> recipes = null)
+        public Chef(string name, Storage storage, List<Recipe> recipes = null)
         {
             Name = name;
-            Recipes = recipes ?? new Dictionary<string, Recipe>();
+            Recipes = recipes ?? new List<Recipe>();
             _storage = storage;
 
         }
 
-        public void Cook(string dishName)
+        public void Cook(IOffer dish)
         {
-            if (!Recipes.ContainsKey(dishName))
+            if (!Recipes.Contains(dish.Recipe))
             {
                 throw new Exception("Recipe not found");
             }
 
-            Recipe recipe = Recipes[dishName];
-
-            if (!_storage.CheckIngredientsAvailability(recipe)) // перевірка чи є інгредієнти на складі
+            if (!_storage.CheckIngredientsAvailability(dish.Recipe)) // перевірка чи є інгредієнти на складі
             {
                 UpdateIngredient?.Invoke();
 
-                Thread.Sleep(50);
-
-                throw new Exception($"Not all ingredients are available for the dish {dishName}");
+                throw new Exception($"Not all ingredients are available for the dish {dish.Name}");
                 
             }
 
-            foreach (KeyValuePair<Ingredient, uint> ingredient in recipe.Ingredients)
+            foreach (KeyValuePair<Ingredient, uint> ingredient in dish.Recipe.Ingredients)
             {
-                for (int i = 0; i < ingredient.Value; i++)
-                {
-                    _storage.TakeIngredient(ingredient.Key);
-                }
+                _storage.TakeIngredient(ingredient.Key, ingredient.Value);
             }
 
-            Thread.Sleep(3000); // симуляція часу приготування
-            _storage.PutDish(dishName);
-            DishPrepared?.Invoke(Name, dishName);
+            Thread.Sleep(((int)dish.Recipe.Time)); // симуляція часу приготування
+            _storage.PutDish(dish);
+            DishPrepared?.Invoke(Name, dish.Name);
 
             IsBusy = false;  // зайнятість кухаря негативна
         }
@@ -62,11 +56,9 @@ namespace PizzaProject.Storage_Waiter.Staff
         {
             get
             {
-                string dishes = string.Join(", ", Recipes.Keys);
+                string dishes = string.Join(", ", Recipes);
                 return $"{Name}'s dishes: {dishes}";
             }
-        }
-
-        
+        }       
     }
 }

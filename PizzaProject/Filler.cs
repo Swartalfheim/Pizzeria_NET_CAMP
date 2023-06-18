@@ -44,7 +44,7 @@ namespace PizzaProject
         }
 
 
-        public static Dictionary<string, Recipe> GetForFirstChef()
+        public static List<Recipe> GetForFirstChef()
         {
             Ingredient ingredient1 = new Ingredient("Tomato");
             Ingredient ingredient2 = new Ingredient("Beef");
@@ -64,16 +64,16 @@ namespace PizzaProject
             ingrads3.Add(ingredient4, 4);
 
 
-            Recipe recipe1 = new Recipe("Pepperoni", ingrads1, 4);
+            Recipe recipe1 = new Recipe("Pepperoni", ingrads1, 2);
 
             Recipe recipe2 = new Recipe("Margarita", ingrads2, 3);
 
             Recipe recipe3 = new Recipe("Juice", ingrads3, 1);
 
-            Dictionary<string, Recipe> result = new Dictionary<string, Recipe>();
-            result.Add(recipe1.Name, recipe1);
-            result.Add(recipe2.Name, recipe2);
-            result.Add(recipe3.Name, recipe3);
+            List<Recipe> result = new List<Recipe>();
+            result.Add(recipe1);
+            result.Add(recipe2);
+            result.Add(recipe3);
 
             return result;
         }

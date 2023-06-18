@@ -92,5 +92,16 @@ namespace PizzaProject.Dishes_Orders.Implementations
             }
             return text;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Recipe other = (Recipe)obj;
+            return Name == other.Name; // Add here whatever properties you need for equality check
+        }
     }
 }

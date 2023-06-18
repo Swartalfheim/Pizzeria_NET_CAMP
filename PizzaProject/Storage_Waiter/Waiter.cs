@@ -31,7 +31,6 @@ namespace PizzaProject
                 {
                     if (token.IsCancellationRequested)
                     {
-                        Console.WriteLine($"{_name} has stopped working.");
                         break;
                     }
 
@@ -42,7 +41,7 @@ namespace PizzaProject
                             Task.Delay(2000).Wait();
                             if (_storage.TakeDish(dish.Key) is TakeResult.SuccessfullyTaken)
                             {
-                                DishDelivered?.Invoke(_name, dish.Key);
+                                DishDelivered?.Invoke(_name, dish.Key.Name);
                             }
                         }
                     }

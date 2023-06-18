@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using PizzaProject.Dishes_Orders.Abstractions;
 using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Storage_Waiter.Interfaces;
 
@@ -7,8 +8,8 @@ namespace PizzaProject.Storage_Waiter.Staff
     public class ChefManager : IStaff
     {
         private string _name;
-        private readonly object _chefLock = new object();
-        private BlockingCollection<string> _orderQueue = new BlockingCollection<string>();
+        private readonly object _chefLock = new ();
+        private BlockingCollection<IOffer> _dishesList = new();
         public List<Chef> Chefs { get; set; }
 
         public ChefManager(string name, List<Chef> chefsIn)
@@ -25,24 +26,25 @@ namespace PizzaProject.Storage_Waiter.Staff
 
         public void AddOrder(Order order)
         {
-            if (_orderQueue.IsAddingCompleted)
+            if (_dishesList.IsAddingCompleted)
             {
                 StartProcessingOrders();
             }
+
             foreach (var item in order.FoodSet)
             {
-                _orderQueue.Add(item.Key.Name);
+                _dishesList.Add(item.Key);
             }
         }
 
         private void ProcessOrders()
         {
-            foreach (var order in _orderQueue.GetConsumingEnumerable())
+            foreach (var order in _dishesList.GetConsumingEnumerable())
             {
                 Chef? freeChef = null;
                 lock (_chefLock)
                 {
-                    freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.ContainsKey(order));
+                    freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.Contains(order.Recipe));
                 }
 
                 if (freeChef != null)
@@ -58,26 +60,26 @@ namespace PizzaProject.Storage_Waiter.Staff
                         {
                             Console.WriteLine(ex.Message);
                             freeChef.IsBusy = false;
-                            _orderQueue.Add(order);
+                            _dishesList.Add(order);
                         }
                     });
                 }
                 else
                 {
-                    _orderQueue.Add(order);
+                    _dishesList.Add(order);
                 }
                 Thread.Sleep(1000);
             }
         }
         public void StartProcessingOrders() // Відновлення роботи ChefManager
         {
-            _orderQueue = new BlockingCollection<string>();
+            _dishesList = new BlockingCollection<IOffer>();
             Task.Factory.StartNew(ProcessOrders, TaskCreationOptions.LongRunning);
         }
 
         public void StopProcessingOrders() // зупинка процесу роботи ChefManager
         {
-            _orderQueue.CompleteAdding();
+            _dishesList.CompleteAdding();
         }
         public string Info
         {
