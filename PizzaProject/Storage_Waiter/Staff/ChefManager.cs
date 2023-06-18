@@ -50,7 +50,7 @@ namespace PizzaProject.Storage_Waiter.Staff
                 Chef? freeChef = null;
                 lock (_chefLock)
                 {
-                    freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.Contains(order.Recipe));
+                    freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.Contains(order.Recipe)); // находимо вільного повара який знає як готувати це блюдо (має в собі рецепт)
                 }
 
                 if (freeChef != null)
@@ -66,10 +66,10 @@ namespace PizzaProject.Storage_Waiter.Staff
                                 var cookedOrder = _ordersBeingPrepared.First(o => o.Value.Contains(order)).Key;
                                 _ordersBeingPrepared[cookedOrder].Remove(order);
 
-                                if (!_ordersBeingPrepared[cookedOrder].Any()) // якщо всі блюда замовлення пригтовані
+                                if (!_ordersBeingPrepared[cookedOrder].Any())   // якщо всі блюда замовлення приготовані
                                 {
-                                    _storage.PutOrder(cookedOrder); // додати замовлення до Storage коли всі блюда приготовлені
-                                    _ordersBeingPrepared.Remove(cookedOrder);
+                                    _storage.PutOrder(cookedOrder);            // додати замовлення до Storage коли всі блюда приготовлені
+                                    _ordersBeingPrepared.Remove(cookedOrder); // видяляємо із "тимчасового" сховища ChefManager
                                 }
                             }
                         }
