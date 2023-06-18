@@ -11,6 +11,8 @@ namespace PizzaProject
         private ConcurrentDictionary<Ingredient, uint> _ingredientStorage = new();
         private ConcurrentDictionary<string, uint> _preparedDishes = new();
 
+        public ConcurrentDictionary<string, uint> PreparedDishes => _preparedDishes;
+
         public Storage()
         {
             _ingredientStorage = new ConcurrentDictionary<Ingredient, uint>();
