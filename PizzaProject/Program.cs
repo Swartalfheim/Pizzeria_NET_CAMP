@@ -45,7 +45,7 @@ namespace PizzaProject
                 new Chef("Ivan", productStorage, Filler.GetForFirstChef())
             };
 
-            chefs.ForEach(x => x.DishPrepared += Print);
+            chefs.ForEach(x => x.DishPrepared += PrintChefNotify);
 
             HashSet<IStaff> staff = new HashSet<IStaff>();
             staff = chefs.Select(x => (IStaff)x).ToHashSet();
@@ -84,9 +84,15 @@ namespace PizzaProject
             Console.ReadLine();
         }
 
-        public static void Print(string name, string dishName)
+        public static void PrintChefNotify(string name, string dishName)
         {
-            Console.WriteLine($"Chef {name} has cooked {dishName}");
+            Console.WriteLine($"Chef {name} has COOKED {dishName}");
         }
+
+        public static void PrintWaiterNotify(string name, string dishName)
+        {
+            Console.WriteLine($"Chef {name} has DELIVERED {dishName}");
+        }
+
     }
 }
