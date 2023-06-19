@@ -35,9 +35,7 @@ namespace PizzaProject.Storage_Waiter.Staff
             if (!_storage.CheckIngredientsAvailability(dish.Recipe)) // перевірка чи є інгредієнти на складі
             {
                 UpdateIngredient?.Invoke();
-
-                throw new Exception($"Not all ingredients are available for the dish {dish.Name}");
-                
+                throw new Exception($"Not all ingredients are available for the dish {dish.Name}");            
             }
 
             foreach (KeyValuePair<Ingredient, uint> ingredient in dish.Recipe.Ingredients)

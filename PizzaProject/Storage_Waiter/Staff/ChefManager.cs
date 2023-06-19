@@ -8,12 +8,19 @@ namespace PizzaProject.Storage_Waiter.Staff
 {
     public class ChefManager : IStaff
     {
-        private string _name;
-        private readonly object _chefLock = new ();
-        private BlockingCollection<IOffer> _dishesList = new();
-        private Dictionary<Order, List<IOffer>> _ordersBeingPrepared = new();
-        private Storage _storage = new ();
         public List<Chef> Chefs { get; set; }
+
+        private string _name;
+
+        private readonly object _chefLock = new ();
+
+        private BlockingCollection<IOffer> _dishesList = new();
+
+        private Dictionary<Order, List<IOffer>> _ordersBeingPrepared = new();
+
+        private Storage _storage = new ();
+
+        private int _nextChefIndex = 0;
 
         public ChefManager(string name, List<Chef> chefsIn, Storage storage)
         {
@@ -50,7 +57,19 @@ namespace PizzaProject.Storage_Waiter.Staff
                 Chef? freeChef = null;
                 lock (_chefLock)
                 {
-                    freeChef = Chefs.Find(chef => !chef.IsBusy && chef.Recipes.Contains(order.Recipe)); // находимо вільного повара який знає як готувати це блюдо (має в собі рецепт)
+                    int checkedChefs = 0;
+                    while (checkedChefs < Chefs.Count) 
+                    {
+                        var potentialChef = Chefs[_nextChefIndex];
+                        _nextChefIndex = (_nextChefIndex + 1) % Chefs.Count;  // циклічно рухаємося по кухарям
+
+                        if (!potentialChef.IsBusy && potentialChef.Recipes.Contains(order.Recipe))
+                        {
+                            freeChef = potentialChef;
+                            break;
+                        }
+                        checkedChefs++;
+                    }
                 }
 
                 if (freeChef != null)
@@ -75,7 +94,6 @@ namespace PizzaProject.Storage_Waiter.Staff
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message);
                             freeChef.IsBusy = false;
                             _dishesList.Add(order);
                         }

@@ -55,7 +55,7 @@ namespace PizzaProject.Simulation
                 currCustomers.ForEach(c => c.GetInLine(_pizzeria.CashRegs));
                 _customers.AddRange(currCustomers);
 
-                Thread.Sleep(_random.Next(2000, 5000));
+                Thread.Sleep(_random.Next(12000, 16000));
             }
         }
     }

@@ -13,7 +13,7 @@ namespace PizzaProject.Costumer_Payment.People
 
         private HashSet<Wallet> _wallets;
 
-        private Guid _currentOrderId;
+        private uint _currentOrderId;
 
         public Customer(string name, HashSet<Wallet> wallets)
         {
@@ -36,7 +36,7 @@ namespace PizzaProject.Costumer_Payment.People
             _vipLvls = new HashSet<VipLvl>(vipLvls);
         }
 
-        public void SetOrderId(Guid orderId)
+        public void SetOrderId(uint orderId)
         {
             _currentOrderId = orderId;
         }

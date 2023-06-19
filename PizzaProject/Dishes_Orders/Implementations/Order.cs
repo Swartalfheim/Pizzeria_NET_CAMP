@@ -1,28 +1,30 @@
 ﻿using PizzaProject.Dishes_Orders.Abstractions;
 using System.Text;
+using System.Xml.Linq;
 
 namespace PizzaProject.Dishes_Orders.Implementations
 {
     public class Order
     {
         private static uint orders = 0;
-        private Guid _id;
+        private uint _id;
         private List<KeyValuePair<IOffer, uint>> _foodSet = new List<KeyValuePair<IOffer, uint>>();
         public decimal TotalPrice { get; set; }
 
         public Order()
         {
+            _id = UniqueIntGenerator.GetUniqueInt();
             //_id = ++orders; //потоки
         }
 
-        public Guid Id
+        public uint Id
         {
             get { return _id; }
         }
 
         public Order(List<KeyValuePair<IOffer, uint>> foodSet)
         {
-            _id = Guid.NewGuid();
+            _id = UniqueIntGenerator.GetUniqueInt();
             _foodSet = new List<KeyValuePair<IOffer, uint>>(foodSet);
         }
         public IEnumerable<KeyValuePair<IOffer, uint>> FoodSet { get => _foodSet; }
@@ -38,13 +40,30 @@ namespace PizzaProject.Dishes_Orders.Implementations
 
         public override string? ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder($"[ID:{_id}] ");
             foreach (var item in _foodSet)
             {
                 sb.Append($"{item.Key.Name} ");
             }
             return sb.ToString();
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Order other = (Order)obj;
+            return _id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)_id;
+        }
+
 
         ////ціни треба брати з меню (замість Dictionary<IOffer, decimal> priceList)
         //public decimal GetTotalPrice()

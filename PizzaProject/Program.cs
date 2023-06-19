@@ -45,7 +45,7 @@ namespace PizzaProject
             LoyaltyProgram loyaltyProgram = new LoyaltyProgram();
 
             List<Chef> chefs = new List<Chef>
-            { 
+            {
                 new Chef("Anton", productStorage, Filler.GetForFirstChef()),
                 new Chef("Oleg", productStorage, Filler.GetForFirstChef()),
                 new Chef("Ivan", productStorage, Filler.GetForFirstChef())
