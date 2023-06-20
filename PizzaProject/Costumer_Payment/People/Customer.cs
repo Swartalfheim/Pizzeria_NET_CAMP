@@ -1,31 +1,47 @@
-﻿using PizzaProject.Costumer_Payment.CashRegisters;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using PizzaProject.Costumer_Payment.CashRegisters;
 using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject.Costumer_Payment.People
 {
     public class Customer : IPerson
     {
-        public Guid Id { get; private set; }
+        //public Guid Id { get; private set; }
+        public uint Id { get; private set; }
         public string Name { get; private set; }
 
+
         private HashSet<VipLvl> _vipLvls;
+
+        [JsonProperty("VipLvls")]
         public IEnumerable<VipLvl> VipLvls => _vipLvls;
 
+        [JsonProperty("Wallets")]
         private HashSet<Wallet> _wallets;
 
-        private Guid _currentOrderId;
+        [JsonProperty("CurrentOrderId")]
+        private uint _currentOrderId;
 
-        public Customer(string name, HashSet<Wallet> wallets)
+        private List<int> _customerOrder = new List<int>();
+
+        public Customer(string name, HashSet<Wallet> wallets, List<int> customerOrder = null)
         {
-            Id = Guid.NewGuid();
+            //Id = Guid.NewGuid();
+            Id = UniqueIntGenerator.GetUniqueCustomerInt();
             Name = name;
             _vipLvls = new HashSet<VipLvl>() { VipLvl.None };
             _wallets = new HashSet<Wallet>(wallets);
+            if (customerOrder != null)
+            {
+                _customerOrder = customerOrder;
+            }
         }
 
         public Customer(string name, HashSet<VipLvl> vipLvls, HashSet<Wallet> wallets)
         {
-            Id = Guid.NewGuid();
+            //Id = Guid.NewGuid();
+            Id = UniqueIntGenerator.GetUniqueCustomerInt();
             Name = name;
             _vipLvls = new HashSet<VipLvl>(vipLvls);
             _wallets = new HashSet<Wallet>(wallets);
@@ -36,7 +52,7 @@ namespace PizzaProject.Costumer_Payment.People
             _vipLvls = new HashSet<VipLvl>(vipLvls);
         }
 
-        public void SetOrderId(Guid orderId)
+        public void SetOrderId(uint orderId)
         {
             _currentOrderId = orderId;
         }
@@ -49,22 +65,21 @@ namespace PizzaProject.Costumer_Payment.People
 
         public void MakeOrder(ICashRegister cashreg) 
         {
-            var menu = cashreg.Menu; //dish, additional, price = menu item
-
-            //!!! порядковий номер страв, колекція порядк номерів дод. інгр
+            List<int> dishes = new List<int>();
+            if (_customerOrder.Count == 0)
+            {
+                dishes = GenerateOrder(cashreg);
+            }
+            else
+            {
+                dishes = _customerOrder;
+            }
             
-            FormOrder(cashreg);
-            //локальний кошик з номерів страв 
-            //SelectDishes
-            // 1, (2,3)
-            //2
-            //3, (1)
-
-            //Pay(cashreg, Wallet.PaymentCategory.Card); //pref - з тих, що є
+            cashreg.AddDishesToOrder(dishes.ToArray());
             Pay(cashreg, _wallets.First().Category);
         }
 
-        private void FormOrder(ICashRegister cashreg)
+        private List<int> GenerateOrder(ICashRegister cashreg)
         {
             Random random = new Random();
             int countDish = random.Next(1, cashreg.Menu.Dishes.Count() + 1);
@@ -73,11 +88,7 @@ namespace PizzaProject.Costumer_Payment.People
             {
                 dishes[i] = random.Next(0, cashreg.Menu.Dishes.Count());
             }
-
-            cashreg.AddDishesToOrder(dishes);
-
-            //Thread.Sleap(rand)
-            //SelectDish
+            return new List<int>(dishes);
         }
 
         public void SelectDish(uint dishId, int[] additionalIds)
@@ -113,4 +124,6 @@ namespace PizzaProject.Costumer_Payment.People
             return $"Id: {Id} Name: {Name} (VipLvls: {string.Join(", ", _vipLvls)})";
         }
     }
+
+    
 }

@@ -6,10 +6,7 @@ using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject.Menu_Loyality.Menu
 {                   
-    
-                                                                                /// <summary>
-                                                                                /// Remake
-                                                                                /// </summary>
+
     public class Manager : IStaff
     {
         private Menu _menu;
@@ -21,7 +18,7 @@ namespace PizzaProject.Menu_Loyality.Menu
         {
             _menu = menu;
         }
-        public Manager(Guid id, string name, Menu menu)
+        public Manager(uint id, string name, Menu menu)
         {
             _menu = menu;
             ///Complete constructor

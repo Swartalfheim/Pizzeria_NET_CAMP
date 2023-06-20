@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace PizzaProject.Costumer_Payment
 {
@@ -8,10 +9,12 @@ namespace PizzaProject.Costumer_Payment
         {
             Cash, PaymentService, Card
         }
+        [JsonIgnore]
         public Guid Id { get; private set; }
 
         private decimal _moneyAmount;
 
+        [JsonProperty("WalletsCategory")]
         public PaymentCategory Category { get; private set; }
 
         public Wallet(decimal amount, PaymentCategory category)

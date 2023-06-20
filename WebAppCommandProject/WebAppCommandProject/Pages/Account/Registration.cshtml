@@ -1,0 +1,28 @@
+﻿@page
+@model WebAppCommandProject.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Registr page";
+}
+
+
+<h2>Registration</h2>
+
+
+<div>
+    <div>
+        <label>Enter Email</label><br />
+        <input type="text" id="email" />
+    </div>
+    <div>
+        <label >Enter Password</label><br />
+        <input type="password" id="password"/>
+    </div>
+    <div>
+        <label>Confirm Password</label><br />
+        <input type="password" id="passwordConfirm"/>
+    </div>
+    <div>
+        <input type="submit" value="Registration" id="registrationBtn"/>
+    </div>
+</div>
+<script src="~/js/registration.js"></script>

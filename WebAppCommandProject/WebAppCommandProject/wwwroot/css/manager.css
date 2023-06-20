@@ -1,0 +1,32 @@
+.btn-close {
+    padding-left: 2.3rem;
+}
+
+small {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: large;
+  font-weight: 500;
+}
+
+.form-check label {
+  font-weight: normal;
+}
+
+dialog {
+  width: 80%;
+}
+
+textarea {
+  width: 100%;
+}
+
+
+.text-wrapper {
+  width: 85%;
+  padding: 8px;
+}

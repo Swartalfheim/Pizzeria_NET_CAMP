@@ -1,7 +1,9 @@
-﻿using PizzaProject.Administration;
+﻿using Newtonsoft.Json;
+using PizzaProject.Administration;
 using PizzaProject.Dishes_Orders.Abstractions;
 using PizzaProject.Dishes_Orders.Implementations;
 using PizzaProject.Menu_Loyality.Loyality;
+using System.Collections.Generic;
 using static PizzaProject.Administration.PizzeriaData;
 
 
@@ -11,56 +13,35 @@ namespace PizzaProject.Menu_Loyality.Menu
     {
         private static Menu _instance;
 
+        
         private Dictionary<IOffer, decimal> _dishes = new Dictionary<IOffer, decimal>();
 
         private Dictionary<IOffer, List<CostsOfIngredients>> _additionalIngredients = new Dictionary<IOffer, List<CostsOfIngredients>>();
 
         private Dictionary<VipLvl, List<DiscountsOfOffer>> _specialOffer = new Dictionary<VipLvl, List<DiscountsOfOffer>>();
 
+        [JsonProperty("Dishes")]
         public Dictionary<IOffer, decimal> Dishes => new Dictionary<IOffer, decimal>(_dishes);
-
+        [JsonIgnore]
         public Dictionary<IOffer, List<CostsOfIngredients>> AdditionalIngredients => new Dictionary<IOffer, List<CostsOfIngredients>>(_additionalIngredients);
-
+        [JsonIgnore]
         public Dictionary<VipLvl, List<DiscountsOfOffer>> SpecialOffer => new Dictionary<VipLvl, List<DiscountsOfOffer>>(_specialOffer);
 
         private Menu() 
         {
-            Ingredient ingredient1 = new Ingredient("Tomato");
-            Ingredient ingredient2 = new Ingredient("Beef");
-            Ingredient ingredient3 = new Ingredient("Mushroom");
-            Ingredient ingredient4 = new Ingredient("Orange");
 
-            Dictionary<Ingredient, uint> ingrads1 = new Dictionary<Ingredient, uint>();
-            ingrads1.Add(ingredient1, 3);
-            ingrads1.Add(ingredient2, 1);
-            ingrads1.Add(ingredient3, 2);
-
-            Dictionary<Ingredient, uint> ingrads2 = new Dictionary<Ingredient, uint>();
-            ingrads2.Add(ingredient1, 3);
-            ingrads2.Add(ingredient2, 1);
-
-            Dictionary<Ingredient, uint> ingrads3 = new Dictionary<Ingredient, uint>();
-            ingrads3.Add(ingredient4, 4);
+            List<Recipe> resultRecepie = Filler.GetForFirstChef();
 
 
-            Recipe recipe1 = new Recipe("Recipe Name 1", ingrads1);
+            Pizza pizza1 = new Pizza("Margarita", "First pizza", resultRecepie.Where(x => x.Name == "Margarita").First(), Pizza.PizzaDough.Thick, IOffer.Size.Large);
+            Pizza pizza2 = new Pizza("Pepperoni", "Second pizza", resultRecepie.Where(x => x.Name == "Pepperoni").First(), Pizza.PizzaDough.WithFilling, IOffer.Size.Small);
 
-            Recipe recipe2 = new Recipe("Recipe Name 2", ingrads2);
-
-            Recipe recipe3 = new Recipe("Recipe Name 3", ingrads3);
-
-            Pizza pizza1 = new Pizza("Margarita", "First pizza", recipe1, Pizza.PizzaDough.Thick, IOffer.Size.Large);
-            Pizza pizza2 = new Pizza("Pepperoni", "Second pizza", recipe2, Pizza.PizzaDough.WithFilling, IOffer.Size.Small);
-
-            Juice juice1 = new Juice("Juice", "Delicius juice", recipe3, Juice.JuiceTaste.Orange, IOffer.Size.Large);
+            Juice juice1 = new Juice("Juice", "Delicius juice", resultRecepie.Where(x => x.Name == "Juice").First(), Juice.JuiceTaste.Orange, IOffer.Size.Large);
 
 
             _dishes.Add(pizza1, 550);
             _dishes.Add(pizza2, 450);
             _dishes.Add(juice1, 300);
-
-
-
 
         }
 
@@ -166,6 +147,7 @@ namespace PizzaProject.Menu_Loyality.Menu
             foreach (var item in dish)
             {
                 _dishes.Add(item.Key, item.Value);
+                ConnectorHandler.UpdateMenuItemData(item);
             }
         }
 
@@ -238,6 +220,19 @@ namespace PizzaProject.Menu_Loyality.Menu
             {
                 _additionalIngredients[offers.Key] = offers.Value;
             }
+        }
+
+        public List<IOffer> OffersById(int[] id)
+        {
+            List<IOffer> result = _dishes.Keys.ToList();
+
+            List<IOffer> result_last = new List<IOffer>();
+            foreach (var item in id)
+            {
+                result_last.Add(result[item]);
+            }
+
+            return result_last;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PizzaProject.Administration;
+﻿using Newtonsoft.Json;
+using PizzaProject.Administration;
 using PizzaProject.Dishes_Orders.Implementations;
 using static PizzaProject.Administration.PizzeriaData;
 
@@ -13,8 +14,10 @@ namespace PizzaProject.Dishes_Orders.Abstractions
             Medium,
             Small
         }
+        string Name { get; }
         string Description { get; }
         Category Category { get; }
+        [JsonIgnore]
         Recipe Recipe { get; }
     }
 }

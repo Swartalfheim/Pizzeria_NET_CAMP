@@ -1,0 +1,156 @@
+﻿@page
+@model WebAppCommandProject.Pages.PizzeriaPages.ClientPageModel
+@{
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="~/css/styles-customer.css" asp-append-version="true">
+
+<div id="cashRegisterContainer" class="cards-container d-flex flex-wrap justify-content-between align-items-center">
+
+    @*<div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+        <div class="card-body">
+            <h5 class="card-title">Cashbox 1</h5>
+            <p class="card-text">Amount of people in queue: 5</p>
+            <ul class="list-group" id="list-1" data-value1="1">
+                <li class="list-group-item">Card</li>
+                <li class="list-group-item">Cash</li>
+                <li class="list-group-item">PaymentService</li>
+            </ul>
+            <button onclick="createOrderDialog('list-1')" type="button" class="btn btn-primary">Make Order</button>
+        </div>
+    </div>*@
+
+</div>
+
+
+<dialog id="createOrderDialog">
+    <div class="list-group">
+
+        <!-- button -->
+        <div class="container">
+            <button onclick="closeOrderDialog()" id="CloseOrderDialogBtn" class="btn-close float-end" type="button"
+                    aria-label="Close"></button>
+        </div>
+
+        <!-- form -->
+        <div class="container">
+            <form id="CustomerForm">
+                <!-- cashbox -->
+                <div class="form-group">
+                    <label for="cashboxInput">Cashbox Number</label>
+                    <input type="text" class="form-control" id="cashboxInput" pattern="[A-Za-z]+"
+                           title="Only letters" readonly>
+                    <small id="nameHelp" class="form-text text-muted">
+                        The specified cashbox number will be displayed
+                        in the
+                        order.
+                    </small>
+                </div>
+
+                <!-- name -->
+                <div class="form-group">
+                    <label for="customerNameInput">Customer Name</label>
+                    <input type="text" class="form-control" id="customerNameInput" placeholder="John"
+                           pattern="[A-Za-z]+" title="Only letters" required>
+                    <small id="nameHelp" class="form-text text-muted">
+                        The specified name will be displayed in the
+                        order.
+                    </small>
+                </div>
+
+                <!-- Payment -->
+                <div class="form-group">
+                    <label for="paymentInput">Payment</label>
+                    <select class="form-control" id="paymentInput">
+                        <option value="1">Card</option>
+                        <option value="2">Cash</option>
+                        <option value="3">PaymentService</option>
+                    </select>
+                    <small id="paymentHelp" class="form-text text-muted">
+                        This payment will be specified for the
+                        order.
+                    </small>
+                </div>
+
+                <!-- table  with dishes -->
+                <div class="form-group">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="customerMenu">Menu</label>
+
+                                <div class="form-control container frame-div overflow-auto p-2"
+                                     style="max-height: 700px;" id="customerMenu">
+
+                                    <!-- table  with dishes -->
+                                    <table class="table table-hover align-middle" id="chef">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Size</th>
+                                                <th scope="col">Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @*<tr data-rowid="1">
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-outline-secondary" type="button"
+                                                                    onclick="decrementValue('myInput1')">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <input id="myInput1" type="text"
+                                                               class="form-control text-center" value="0" readonly>
+
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-outline-secondary" type="button"
+                                                                    onclick="incrementValue('myInput1')">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <th scope="row">1</th>
+                                                <td>Pizza</td>
+                                                <td class="text-wrapper">Margarita</td>
+                                                <td>Thick</td>
+                                                <td>Large</td>
+                                                <td>550.0</td>
+                                            </tr>*@
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <small id="menuHelp" class="form-text text-muted">
+                        This dishes will be specified for the
+                        order.
+                    </small>
+                </div>
+
+
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+
+
+<!-- Include SignalR JS -->
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script src="~/js/PizzariaPages/customer.js" asp-append-version="true"></script>

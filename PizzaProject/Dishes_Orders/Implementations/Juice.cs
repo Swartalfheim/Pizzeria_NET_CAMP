@@ -1,4 +1,5 @@
-﻿using PizzaProject.Administration;
+﻿using Newtonsoft.Json;
+using PizzaProject.Administration;
 using PizzaProject.Dishes_Orders.Abstractions;
 using static PizzaProject.Administration.PizzeriaData;
 
@@ -25,11 +26,16 @@ namespace PizzaProject.Dishes_Orders.Implementations
             _taste = taste;
             _size = size;
         }
+        [JsonProperty("Name")]
         public string Name { get => _name; }
+        [JsonProperty("Description")]
         public string Description { get => _description; }
+        [JsonProperty("Category")]
         public Category Category { get => Category.Drinks; }
         public Recipe Recipe { get => _recipe; }
+        [JsonProperty("Dough")]
         public JuiceTaste Taste { get => _taste; }
+        [JsonProperty("Size")]
         public IOffer.Size Size { get => _size; }
         public override string ToString()
         {

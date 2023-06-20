@@ -1,0 +1,297 @@
+﻿@page
+@model WebAppCommandProject.Pages.PizzeriaPages.VisitorModel
+@{
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="styles-visitor.css" asp-append-version="true">
+
+<div class="part-container form-control">
+    <!-- Start Of Admin Part -->
+    <!-- Control Menu -->
+    <div class="container">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button id="stopBtn" type="button" class="btn btn-danger">Stop</button>
+            <button id="startBtn" type="button" class="btn btn-success">Start</button>
+            <button id="pauseBtn" type="button" class="btn btn-warning">Pause</button>
+            <button id="continueBtn" type="button" class="btn btn-primary">Continue</button>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <!-- Chef Container -->
+            <div class="col-6">
+                <div class="d-flex justify-content-between p-2">
+                    <h4 class="text-center">
+                        Chef container
+                    </h4>
+                </div>
+                <div class="container frame-div border border-primary rounded overflow-auto p-2"
+                     style="max-height: 700px;" id="Chef">
+                    <table class="table" id="chef">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-rowid="0">
+                                <th scope="row">0</th>
+                                <td>MarkTest</td>
+                                <td>busy</td>
+                                <td>None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- Client Waiter -->
+            <div class="col-6">
+                <div class="d-flex justify-content-between p-2">
+                    <h4 class="text-center">
+                        Client container
+                    </h4>
+                </div>
+
+                <div id="createClientFormContainer" class="container"></div>
+
+                <div class="content-div fframe-div border border-primary rounded overflow-auto p-2"
+                     style="max-height: 700px;" id="Client">
+                    <table class="table" id="client">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Walet</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-rowid="0">
+                                <th scope="row">0</th>
+                                <td>MarkTest</td>
+                                <td>d4f23x53</td>
+                                <td>None</td>
+                                <td>Cash</td>
+                                <td>None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Chef Waiter -->
+        <div class="row">
+            <div class="col-6">
+                <div class="d-flex justify-content-between p-2">
+                    <h4 class="text-center">
+                        Waiter container
+                    </h4>
+                </div>
+                <div class="container frame-div border border-primary rounded overflow-auto p-2"
+                     style="max-height: 700px;" id="Chef">
+                    <table class="table" id="waiter">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-rowid="0">
+                                <th scope="row">0</th>
+                                <td>MarkTest</td>
+                                <td>busy</td>
+                                <td>None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Of Admin Part -->
+</div>
+
+
+
+
+<div class="part-container form-control">
+    <!-- Start Of Manager Part -->
+    <!-- table -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between p-3">
+                    <h4 class="text-center">
+                        Menu
+                    </h4>
+                </div>
+
+
+                <div class="container form-control frame-div overflow-auto p-2"
+                     style="max-height: 700px;" id="Chef">
+                    <table class="table table-hover align-middle" id="chef">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-rowid="1">
+                                <th scope="row">1</th>
+                                <td>Pizza</td>
+                                <td>Margarita</td>
+                                <td>Thick</td>
+                                <td>Large</td>
+                                <td>550.0</td>
+                                <td>None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Of Manager Part -->
+</div>
+
+
+
+
+
+<div class="part-container form-control">
+    <!-- Start Of Client Part -->
+    <div class="cards-container d-flex flex-wrap justify-content-between align-items-center">
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 1</h5>
+                <p class="card-text">Amount of people in queue: 5</p>
+                <ul class="list-group" id="list-1" data-value1="1">
+                    <li class="list-group-item">Card</li>
+                    <li class="list-group-item">Cash</li>
+                    <li class="list-group-item">PaymentService</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 2</h5>
+                <p class="card-text">Amount of people in queue: 10</p>
+                <ul class="list-group" id="list-2" data-value1="2">
+                    <li class="list-group-item">Card</li>
+                    <li class="list-group-item">PaymentService</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 3</h5>
+                <p class="card-text">Amount of people in queue: 2</p>
+                <ul class="list-group" id="list-3" data-value1="3">
+                    <li class="list-group-item">Cash</li>
+                    <li class="list-group-item">PaymentService</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 4</h5>
+                <p class="card-text">Amount of people in queue: 9</p>
+                <ul class="list-group" id="list-4" data-value1="4">
+                    <li class="list-group-item">Card</li>
+                    <li class="list-group-item">Cash</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 5</h5>
+                <p class="card-text">Amount of people in queue: 3</p>
+                <ul class="list-group" id="list-5" data-value1="5">
+                    <li class="list-group-item">Card</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 6</h5>
+                <p class="card-text">Amount of people in queue: 1</p>
+                <ul class="list-group" id="list-6" data-value1="6">
+                    <li class="list-group-item">Cash</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 7</h5>
+                <p class="card-text">Amount of people in queue: 8</p>
+                <ul class="list-group" id="list-7" data-value1="7">
+                    <li class="list-group-item">PaymentService</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.svgrepo.com/show/134162/cashbox.svg" alt="Cashbox">
+            <div class="card-body">
+                <h5 class="card-title">Cashbox 8</h5>
+                <p class="card-text">Amount of people in queue: 20</p>
+                <ul class="list-group" id="list-8" data-value1="8">
+                    <li class="list-group-item">Card</li>
+                    <li class="list-group-item">Cash</li>
+                    <li class="list-group-item">PaymentService</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Of Client Part -->
+</div>
+
+
+<!-- Include SignalR JS -->
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+<script src="visitor.js" asp-append-version="true"></script>

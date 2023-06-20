@@ -5,7 +5,7 @@ namespace PizzaProject.Dishes_Orders.Implementations
     public class Recipe
     {
         public string Name { get; set; }
-
+        public uint Time { get; }
         public Dictionary<Ingredient, uint> Ingredients { get; set; }
 
         public enum CookingStage
@@ -17,9 +17,10 @@ namespace PizzaProject.Dishes_Orders.Implementations
         }
         private Dictionary<CookingStage, List<(IStorageable, TimeOnly)>> _cookingStages;
 
-        public Recipe(string name, Dictionary<Ingredient, uint> ingredients)
+        public Recipe(string name, Dictionary<Ingredient, uint> ingredients, uint time)
         {
             Name = name;
+            Time = time * 1000;
             Ingredients = new Dictionary<Ingredient, uint>(ingredients);
         }
 
@@ -90,6 +91,17 @@ namespace PizzaProject.Dishes_Orders.Implementations
                     $"{(time.Second > 0 ? time.Second + "s" : "")}). ";
             }
             return text;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Recipe other = (Recipe)obj;
+            return Name == other.Name; // Add here whatever properties you need for equality check
         }
     }
 }

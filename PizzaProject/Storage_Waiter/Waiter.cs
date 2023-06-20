@@ -1,19 +1,22 @@
-﻿using PizzaProject.Enums;
+﻿using PizzaProject.Dishes_Orders.Implementations;
+using PizzaProject.Enums;
 using PizzaProject.Storage_Waiter.Interfaces;
 
 namespace PizzaProject
 {
     public class Waiter : IStaff
     {
-        public static event Action<string, string>? DishDelivered;
-
+        public static event Action<string, Order>? OrderDelivered;
+        public uint Id { get; private set; }
         private string _name;
         private Storage _storage;
+        private const ushort DELIVERY_TIME = 1000;
 
         private CancellationTokenSource _cancellationTokenSource;
 
         public Waiter(string name, Storage storage)
         {
+            Id = UniqueIntGenerator.GetUniqueWaiterInt();
             _name = name;
             _storage = storage;
         }
@@ -25,29 +28,30 @@ namespace PizzaProject
             _cancellationTokenSource = new CancellationTokenSource();
             var token = _cancellationTokenSource.Token;
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
-                while (true)
+                while (!token.IsCancellationRequested)
                 {
-                    if (token.IsCancellationRequested)
+                    foreach (var order in _storage.PreparedOrders)
                     {
-                        Console.WriteLine($"{_name} has stopped working.");
-                        break;
-                    }
-
-                    foreach (var dish in _storage.PreparedDishes)
-                    {
-                        if (dish.Value > 0)
+                        if (token.IsCancellationRequested)
                         {
-                            Task.Delay(2000).Wait();
-                            if (_storage.TakeDish(dish.Key) is TakeResult.SuccessfullyTaken)
+                            break;
+                        }
+
+                        if (order.Value > 0)
+                        {
+                            await Task.Delay(DELIVERY_TIME);
+                            if (_storage.TakeOrder(order.Key) is TakeResult.SuccessfullyTaken)
                             {
-                                DishDelivered?.Invoke(_name, dish.Key);
+                                OrderDelivered?.Invoke(_name, order.Key);
+                                ConnectorHandler.UpdateWaiterData(this, order.Key);
                             }
                         }
                     }
                 }
             }, token);
+            
         }
 
         public void StopWorking()

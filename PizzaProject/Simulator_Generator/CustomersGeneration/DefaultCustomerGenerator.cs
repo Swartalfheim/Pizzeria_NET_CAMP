@@ -21,21 +21,43 @@ namespace PizzaProject.Simulator_Generator.CustomersGeneration
         public List<Customer> GenerateVisitors()
         {
             Random r = new Random();
-            List<Customer> customers = new List<Customer>((int)_customerCount);
-            for (int i = 0; i < customers.Capacity; i++)
+            int customerNumber = r.Next(1, 11);
+            List<Customer> customers = new List<Customer>();
+            for (uint i = 0; i < customerNumber; i++)
             {
-                string userName = Guid.NewGuid().ToString();
+                string userName = RandomNameGenerator.GenerateRandomName();
 
                 //VipLvls
-                HashSet<VipLvl> vipLvls = CustomerGenerator.GenerateVipLvls(r.Next(1, 3), Enum.GetValues(typeof(VipLvl)));
+                HashSet<VipLvl> vipLvls = CustomerGenerator.GenerateVipLvls(r.Next(1, Enum.GetValues(typeof(VipLvl)).Length), Enum.GetValues(typeof(VipLvl)));
 
                 //Wallets
-                HashSet<Wallet> wallets = CustomerGenerator.GenerateWallets(r.Next(1, 4), Enum.GetValues(typeof(Wallet.PaymentCategory)));
+                HashSet<Wallet> wallets = CustomerGenerator.GenerateWallets(r.Next(1, Enum.GetValues(typeof(Wallet.PaymentCategory)).Length), Enum.GetValues(typeof(Wallet.PaymentCategory)));
 
                 Customer customer = new Customer(userName, vipLvls, wallets);
                 customers.Add(customer);
             }
             return customers;
+        }
+    }
+
+    public static class RandomNameGenerator
+    {
+        private static Random random = new Random();
+        private static List<string> possibleNames = new List<string>
+        {
+            "John", "Emily", "Michael", "Sophia", "Robert", "Emma", "Daniel",
+            "Olivia", "William", "Ava", "James", "Isabella", "Benjamin", "Mia",
+            "Joseph", "Charlotte", "David", "Amelia", "Andrew", "Harper",
+            "Matthew", "Evelyn", "Jacob", "Abigail", "Logan", "Emily", "Alexander",
+            "Elizabeth", "Ethan", "Mila", "Liam", "Sofia", "Noah", "Avery",
+            "Lucas", "Grace", "Mason", "Chloe", "Elijah", "Ella", "Henry", "Zoe",
+            "Sebastian", "Scarlett", "Jackson", "Lily", "Aiden", "Madison"
+        };
+
+        public static string GenerateRandomName()
+        {
+            int index = random.Next(possibleNames.Count);
+            return possibleNames[index];
         }
     }
 }

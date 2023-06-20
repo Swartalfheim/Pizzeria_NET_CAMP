@@ -9,9 +9,6 @@ namespace PizzaProject.Costumer_Payment.CashRegisters
     {
         public event OrderApperiance NewOrderApperiance;
 
-
-
-
         private IMenu _menu;
         public IMenu Menu { get => _menu; }
 
@@ -32,8 +29,6 @@ namespace PizzaProject.Costumer_Payment.CashRegisters
 
         public void AddToQueue(Customer customer)
         {
-            
-
             _customersInQueue.Add(customer); 
 
             if (_customersInQueue.Count == 1)
@@ -43,8 +38,6 @@ namespace PizzaProject.Costumer_Payment.CashRegisters
                 _customersInQueue[0].MakeOrder(this);
                 
             }
-                
-
         }
 
         public void DeleteFromQueue(Customer customer)
@@ -112,6 +105,7 @@ namespace PizzaProject.Costumer_Payment.CashRegisters
                 NewOrderApperiance?.Invoke(_currentOrder);
                 _currentCustomer.SetOrderId(_currentOrder.Id);
                 //оповіщення посередника про зміну кількості грошей на рахунку конкретної каси (_currentOrder.TotalPrice)
+                ConnectorHandler.SendClientData(_currentCustomer);
 
                 _customersInQueue.Remove(_currentCustomer);
                 

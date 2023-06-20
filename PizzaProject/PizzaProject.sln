@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaProject", "PizzaProject.csproj", "{22A40978-B70D-489B-82D6-32111D8F382A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaProject", "PizzaProject.csproj", "{22A40978-B70D-489B-82D6-32111D8F382A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pizzaria_Library", "..\Pizzaria_Library\Pizzaria_Library.csproj", "{E465C530-223B-4C16-A48E-E5DAB35AF289}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaClient", "..\PizzaClient\PizzaClient.csproj", "{B47C108B-A2F1-448B-9D2C-17BE5DDD67CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppCommandProject", "..\WebAppCommandProject\WebAppCommandProject\WebAppCommandProject.csproj", "{C78C9B88-7D9F-4166-8ACC-524C57681FF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{22A40978-B70D-489B-82D6-32111D8F382A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22A40978-B70D-489B-82D6-32111D8F382A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22A40978-B70D-489B-82D6-32111D8F382A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E465C530-223B-4C16-A48E-E5DAB35AF289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E465C530-223B-4C16-A48E-E5DAB35AF289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E465C530-223B-4C16-A48E-E5DAB35AF289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E465C530-223B-4C16-A48E-E5DAB35AF289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B47C108B-A2F1-448B-9D2C-17BE5DDD67CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B47C108B-A2F1-448B-9D2C-17BE5DDD67CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B47C108B-A2F1-448B-9D2C-17BE5DDD67CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B47C108B-A2F1-448B-9D2C-17BE5DDD67CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C78C9B88-7D9F-4166-8ACC-524C57681FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C78C9B88-7D9F-4166-8ACC-524C57681FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C78C9B88-7D9F-4166-8ACC-524C57681FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C78C9B88-7D9F-4166-8ACC-524C57681FF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

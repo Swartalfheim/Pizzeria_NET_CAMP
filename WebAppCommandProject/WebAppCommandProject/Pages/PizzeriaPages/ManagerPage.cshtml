@@ -1,0 +1,193 @@
+﻿@page
+@model WebAppCommandProject.Pages.PizzeriaPages.ManagerPageModel
+@{
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="~/css/manager.css" asp-append-version="true">
+
+<!-- table -->
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between p-3">
+                <h4 class="text-center">
+                    Menu
+                </h4>
+                <button onclick="createDishDialog()" type="button" class="btn btn-secondary"
+                        data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="You can create new Dish and add to Menu">
+                    Create new Dish
+                </button>
+            </div>
+
+
+
+            <div class="container frame-div border border-secondary rounded overflow-auto p-2"
+                 style="max-height: 700px;" id="Chef">
+                <table class="table table-hover align-middle" id="chef">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @* <tr data-rowid="1">
+                            <th scope="row">1</th>
+                            <td>Pizza</td>
+                            <td>Margarita</td>
+                            <td>Thick</td>
+                            <td>Large</td>
+                            <td>550.0</td>
+                            <td>
+                                <button onclick="deleteItemBtn(this)" class="btn-close" type="button"
+                                        aria-label="Close"></button>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- dialog -->
+<dialog id="createDishDialog">
+    <div class="list-group">
+
+        <!-- button -->
+        <div class="container">
+            <button onclick="closeDishDialog()" id="CloseClientDialogBtn" class="btn-close float-end" type="button"
+                    aria-label="Close"></button>
+        </div>
+
+        <!-- form -->
+        <div class="container">
+            <form id="DishForm">
+
+                <!-- name -->
+                <div class="form-group">
+                    <label for="dishNameInput">Dish Name</label>
+                    <input type="text" class="form-control" id="dishNameInput" placeholder="Pepperoni"
+                           pattern="[A-Za-z]+" title="Only letters" required>
+                    <small id="dishHelp" class="form-text text-muted">
+                        The specified name will be displayed in the
+                        menu.
+                    </small>
+                </div>
+
+                <!-- description -->
+                <div class="form-group">
+                    <label for="descriptionInput">Description</label>
+                    <!-- <input type="text" class="form-control" id="descriptionInput" placeholder="Amazing pizza for the party" required> -->
+                    <textarea name="description" class="form-control" id="descriptionInput"
+                              placeholder="Amazing pizza for the party" rows="4" required></textarea>
+                    <small id="descriptionHelp" class="form-text text-muted">
+                        The specified description will be saved
+                        for the dish.
+                    </small>
+                </div>
+
+                <!-- ingridients -->
+                <label>Ingridients</label>
+                <div id="ingridients" class="form-group">
+                    @*<div class="input-group">
+                        <div class="input-group-prepend">
+                            <!-- <button onclick="decrementValue(this)">Decrement</button> -->
+                            <button class="btn btn-outline-secondary" type="button"
+                                    onclick="decrementValue('myInput1')">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+
+                        <input id="myInput1" type="text" class="form-control text-center" value="0" readonly>
+
+                        <div class="input-group-append">
+                            <!-- <button onclick="incrementValue(this)">Increment</button> -->
+                            <button class="btn btn-outline-secondary" type="button"
+                                    onclick="incrementValue('myInput1')">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="text-wrapper">
+                            <span>Tomato</span>
+                        </div>
+                    </div>*@
+
+                </div>
+                <small id="ingridientsHelp" class="form-text text-muted">
+                    The specified ingridients will be added
+                    to the dish.
+                </small>
+
+                <!-- amoutOfIngridients -->
+                <!-- Cooking Time -->
+                <div class="form-group">
+                    <label for="timeInput">Cooking Time</label>
+                    <input type="number" class="form-control" id="timeInput" placeholder="10" min="1" max="2147483"
+                           required>
+                    <small id="timeHelp" class="form-text text-muted">
+                        The specified time will be saved for the dish
+                        in seconds.
+                    </small>
+                </div>
+
+                <!-- Pizza Size -->
+                <div class="form-group">
+                    <label for="sizeInput">Pizza Size</label>
+                    <select class="form-control" id="sizeInput">
+                        <option value="1">Small</option>
+                        <option value="2">Medium</option>
+                        <option value="3">Large</option>
+                        <option value="4">Extra-Large</option>
+                    </select>
+                    <small id="sizeHelp" class="form-text text-muted">
+                        This size will be specified for the
+                        pizza.
+                    </small>
+                </div>
+
+                <!-- Dough -->
+                <div class="form-group">
+                    <label for="doughInput">Dough</label>
+                    <select class="form-control" id="doughInput">
+                        <option value="1">Thin</option>
+                        <option value="2">Thick</option>
+                        <option value="3">WithFilling</option>
+                    </select>
+                    <small id="doughHelp" class="form-text text-muted">
+                        This dough will be specified for the
+                        pizza.
+                    </small>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                    <label for="priceInput">Price</label>
+                    <input type="number" class="form-control" id="priceInput" placeholder="150" min="1"
+                           max="2500000" required>
+                    <small id="priceHelp" class="form-text text-muted">
+                        The specified price will be saved for the
+                        dish.
+                    </small>
+                </div>
+
+                <input id="createDishBtn" type="submit" value="Submit" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</dialog>
+
+<!-- Include SignalR JS -->
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script src="~/js/PizzariaPages/manager.js" asp-append-version="true"></script>

@@ -1,4 +1,5 @@
-﻿using PizzaProject.Administration;
+﻿using Newtonsoft.Json;
+using PizzaProject.Administration;
 using PizzaProject.Dishes_Orders.Abstractions;
 using static PizzaProject.Administration.PizzeriaData;
 
@@ -33,12 +34,19 @@ namespace PizzaProject.Dishes_Orders.Implementations
                 _additionalIngredients.AddRange(additionalIngredients);
             }
         }
+        [JsonProperty("Name")]
         public string Name { get => _name; }
+        [JsonProperty("Description")]
         public string Description { get => _description; }
+        [JsonProperty("Category")]
         public Category Category { get => Category.Pizzas; }
+        [JsonIgnore]
         public Recipe Recipe { get => _recipe; }
+        [JsonProperty("Dough")]
         public PizzaDough Dough { get => _dough; }
+        [JsonProperty("Size")]
         public IOffer.Size Size { get => _size; }
+        [JsonIgnore]
         public IEnumerable<IStorageable> AdditionalIngredients { get => _additionalIngredients; }
 
         
@@ -47,6 +55,7 @@ namespace PizzaProject.Dishes_Orders.Implementations
         {
             _additionalIngredients.AddRange(ingredients);
         }
+
         public override string ToString()
         {
             string text = $"Pizza \"{_name}\" - Dough: {_dough}, Size: {_size}";
@@ -61,6 +70,7 @@ namespace PizzaProject.Dishes_Orders.Implementations
             }
             return text;
         }
+
         public bool Equals(IOffer? other)
         {
             return _name == other?.Name;

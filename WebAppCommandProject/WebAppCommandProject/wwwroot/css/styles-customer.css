@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-height: 180px;
+}
+
+.cards-container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+
+.card {
+    margin-top: 1rem;
+}
+
+.btn.btn-primary {
+    margin-top: 1rem;
+}
+
+small {
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+dialog {
+    width: 80%;
+}

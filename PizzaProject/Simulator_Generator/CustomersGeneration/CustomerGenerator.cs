@@ -5,33 +5,53 @@ using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject.CustomersGeneration
 {
-    internal class CustomerGenerator
+    public class CustomerGenerator
     {
         private ICustomerGenerationStrategy _customerGenerationStrategy;
 
+
         public CustomerGenerator(ICustomerGenerationStrategy customerGenerationStrategy)
         {
-            _customerGenerationStrategy = customerGenerationStrategy;
+             _customerGenerationStrategy = customerGenerationStrategy;
         }
+
+
 
         public List<Customer> GenerateVisitorsForSimulation()
         {
+
             return _customerGenerationStrategy.GenerateVisitors();
+
         }
 
-        public static HashSet<Wallet> GenerateWallets(int amountOfWallets, Array paymentCategories)
+        public static HashSet<Wallet> GenerateWallets(int amountOfWallets, Array paymentCategories, int minMoney = 200, int maxMoney = 100000)
         {
             Random random = new Random();
+            
             try
             {
+
+                bool marker = true;
                 HashSet<Wallet> wallets = new HashSet<Wallet>(amountOfWallets);
 
                 Wallet.PaymentCategory randomCategory = (Wallet.PaymentCategory)paymentCategories.GetValue(random.Next(paymentCategories.Length));
 
+
                 for (int i = 0; i < amountOfWallets; i++)
                 {
-                    Wallet wallet = new Wallet(new decimal(random.NextDouble() * (100000 - 200) + 200), randomCategory);
+                    
+                    Wallet wallet = new Wallet(new decimal(random.NextDouble() * (maxMoney - minMoney) + minMoney), randomCategory);
                     wallets.Add(wallet);
+
+                    while (marker)
+                    {
+                        Wallet.PaymentCategory randomCategoryNew = (Wallet.PaymentCategory)paymentCategories.GetValue(random.Next(paymentCategories.Length));
+                        if (randomCategoryNew != randomCategory)
+                        {
+                            marker = false;
+                            randomCategory = randomCategoryNew;
+                        }
+                    }
                 }
                 return wallets;
             }

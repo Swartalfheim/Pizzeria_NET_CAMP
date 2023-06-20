@@ -1,14 +1,14 @@
-﻿using PizzaProject.Dishes_Orders.Implementations;
+﻿using PizzaProject.Costumer_Payment;
+using PizzaProject.Dishes_Orders.Implementations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject
 {
     public static class Filler
     {
+        private static Random _random = new Random();
         public static List<Ingredient> GetIngredients()
         {
             List<Ingredient> _ingredients = new List<Ingredient>
@@ -26,17 +26,29 @@ namespace PizzaProject
 
         public static Dictionary<Ingredient, uint> GetIngredientForStorage()
         {
-            Random random = new Random();
 
             Dictionary<Ingredient, uint> dictionary = GetIngredients().ToDictionary(
                 ingredient => ingredient,
-                ingredient => (uint)random.Next(10, 201)
+                ingredient => (uint)_random.Next(40, 100)
             );
 
             return dictionary;
         }
 
-        public static Dictionary<string, Recipe> GetForFirstChef()
+        public static Dictionary<Ingredient, uint> ResponsByIngredient(List<string> ingrIncome)
+        {
+            List<Ingredient> _ingredients = GetIngredients();
+
+            Dictionary<Ingredient, uint> dictionary = GetIngredients().Where(x => ingrIncome.Contains(x.Name)).ToDictionary(
+                ingredient => ingredient,
+                ingredient => (uint)_random.Next(5, 20)
+            );
+
+            return dictionary;
+        }
+
+
+        public static List<Recipe> GetForFirstChef()
         {
             Ingredient ingredient1 = new Ingredient("Tomato");
             Ingredient ingredient2 = new Ingredient("Beef");
@@ -56,18 +68,48 @@ namespace PizzaProject
             ingrads3.Add(ingredient4, 4);
 
 
-            Recipe recipe1 = new Recipe("Pepperoni", ingrads1);
+            Recipe recipe1 = new Recipe("Pepperoni", ingrads1, 4);
 
-            Recipe recipe2 = new Recipe("Margarita", ingrads2);
+            Recipe recipe2 = new Recipe("Margarita", ingrads2, 3);
 
-            Recipe recipe3 = new Recipe("Juice", ingrads3);
+            Recipe recipe3 = new Recipe("Juice", ingrads3, 1);
 
-            Dictionary<string, Recipe> result = new Dictionary<string, Recipe>();
-            result.Add(recipe1.Name, recipe1);
-            result.Add(recipe2.Name, recipe2);
-            result.Add(recipe3.Name, recipe3);
+            List<Recipe> result = new List<Recipe>();
+            result.Add(recipe1);
+            result.Add(recipe2);
+            result.Add(recipe3);
 
             return result;
+        }
+
+        public static Category[] GetCategoryForFirstChef()
+        {
+
+            Category[] categories = (Category[])Enum.GetValues(typeof(Category));
+            Random random = new Random();
+
+            int count = random.Next(1, categories.Length+1);
+
+            List<Category> randomCategories = new List<Category>();
+
+            for (int i = 0; i < count; i++)
+            {
+                int index = random.Next(categories.Length);
+
+                while (!randomCategories.Contains(categories[index]))
+                {
+                       
+                    randomCategories.Add(categories[index]);
+                }
+                
+            }
+
+            return randomCategories.ToArray();
+        }
+
+        public static Category[] GetAllCategories()
+        {
+            return (Category[])Enum.GetValues(typeof(Category));
         }
     }
 }

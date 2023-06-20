@@ -1,0 +1,223 @@
+﻿@page
+@model WebAppCommandProject.Pages.PizzeriaPages.AdminPageModel
+@{
+}
+
+
+<div class="container">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button id="stopBtn" type="button" class="btn btn-danger">Stop</button>
+        <button id="startBtn" type="button" class="btn btn-success">Start</button>
+        <button id="pauseBtn" type="button" class="btn btn-warning">Pause</button>
+        <button id="continueBtn" type="button" class="btn btn-primary">Continue</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="d-flex justify-content-between p-2">
+                <h4 class="text-center">
+                    Chef container
+                </h4>
+                <button onclick="openChefDialog()" type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="You can create new Chef and add to Pizzeria">
+                    Create new Chef
+                </button>
+            </div>
+            <div class="container frame-div border border-primary rounded overflow-auto p-2" style="max-height: 700px;" id="Chef">
+                <table class="table" id="chef">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr data-rowid="0">
+                            <th scope="row">0</th>
+                            <td>MarkTest</td>
+                            <td>busy</td>
+                            <td>
+                                <button onclick="deleteItemBtn(this)" class="btn-close" type="button" aria-label="Close"></button>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex justify-content-between p-2">
+                <h4 class="text-center">
+                    Client container
+                </h4>
+
+                <button onclick="openClientDialog()" type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="You can Create Client and add to Pizzeria">
+                    Create Client
+                </button>
+            </div>
+
+            <div id="createClientFormContainer" class="container"></div>
+
+            <div class="content-div fframe-div border border-primary rounded overflow-auto p-2" style="max-height: 700px;" id="Client">
+                <table class="table" id="client">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Walet</th>
+                            <th scope="col">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr data-rowid="0">
+                            <th scope="row">0</th>
+                            <td>MarkTest</td>
+                            <td>d4f23x53</td>
+                            <td>None</td>
+                            <td>Cashe</td>
+                            <td>
+                                <button onclick="deleteItemBtn(this)" class="btn-close" type="button" aria-label="Close"></button>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="d-flex justify-content-between p-2">
+                <h4 class="text-center">
+                    Waiter container
+                </h4>
+                <button onclick="openWaiterDialog()" type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="You can create new Chef and add to Pizzeria">
+                    Create new Waiter
+                </button>
+            </div>
+            <div class="container frame-div border border-primary rounded overflow-auto p-2" style="max-height: 700px;" id="Chef">
+                <table class="table" id="waiter">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr data-rowid="0">
+                            <th scope="row">0</th>
+                            <td>MarkTest</td>
+                            <td>busy</td>
+                            <td>
+                                <button onclick="deleteItemBtn(this)" class="btn-close" type="button" aria-label="Close"></button>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<dialog id="createChefDialog">
+    <div class="list-group">
+        <div class="container">
+            <button id="CloseChefDialogBtn" class="btn-close float-end" type="button" aria-label="Close"></button>
+        </div>
+        <div class="container">
+            <form id="createChefForm" method="dialog">
+                <div class="form-group">
+                    <label for="chefNameInput">Chef Name</label>
+                    <input type="text" class="form-control" id="chefNameInput" placeholder="Enter Name">
+                    <small id="nameHelp" class="form-text text-muted">The specified name will be displayed in the pizzeria.</small>
+                </div>
+                <label for="categoryId">Choise category</label>
+                <div class="form-group" id="categoryId">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="category" value="0" id="categoryDrinks">
+                        <label class="form-check-label" for="categoryDrinks">Drinks</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="category" value="1" id="categoryPizzas">
+                        <label class="form-check-label" for="categoryPizzas">Pizzas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="category" value="2" id="categorySweets">
+                        <label class="form-check-label" for="categorySweets">Sweets</label>
+                    </div>
+                </div>
+                <button id="createChefBtn" type="reset" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="createWaiterDialog">
+    <div class="list-group">
+        <div class="container">
+            <button id="CloseWaiterDialogBtn" class="btn-close float-end" type="button" aria-label="Close"></button>
+        </div>
+        <div class="container">
+            <form id="createWaiterForm" method="dialog">
+                <div class="form-group">
+                    <label for="waiterNameInput">Waiter Name</label>
+                    <input type="text" class="form-control" id="waiterNameInput" placeholder="Enter Name">
+                    <small id="nameHelp" class="form-text text-muted">The specified name will be displayed in the pizzeria.</small>
+                </div>
+                <button id="createWaiterBtn" type="reset" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+<dialog id="createClientDialog">
+    <div class="list-group">
+        <div class="container">
+            <button id="CloseClientDialogBtn" class="btn-close float-end" type="button" aria-label="Close"></button>
+        </div>
+        <div class="container">
+            <form id="createClientForm">
+                <div class="form-group">
+                    <label for="clientNameInput">Client Name</label>
+                    <input type="text" class="form-control" id="clientNameInput" placeholder="Enter Name">
+                    <small id="emailHelp" class="form-text text-muted">The specified name will be displayed in the pizzeria.</small>
+                </div>
+                <div class="form-group">
+                    <label for="clientStatusInput">Client Status</label>
+                    <select class="form-control" id="clientStatusInput">
+                        <option value="0">None</option>
+                        <option value="1">Bronze</option>
+                        <option value="2">Silver</option>
+                        <option value="3">Gold</option>
+                    </select>
+                    <small id="statusHelp" class="form-text text-muted">The status of the client affects its priority in the queue and the size of the check.</small>
+                </div>
+                <div class="form-group">
+                    <label for="clientWaletInput">Client Walet</label>
+                    <select class="form-control" id="clientWaletInput">
+                        <option value="0">None</option>
+                        <option value="1">Cashe</option>
+                        <option value="2">PaymentService</option>
+                        <option value="3">Card</option>
+                    </select>
+                    <small id="statusHelp" class="form-text text-muted">Specify the type of wallet the client has.</small>
+                </div>
+                <button id="createClientBtn" type="reset" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+<!-- Include SignalR JS -->
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<script src="~/js/PizzariaPages/admin.js" asp-append-version="true"></script>
+<script src="~/js/PizzariaPages/procesControl.js" asp-append-version="true"></script>
+
