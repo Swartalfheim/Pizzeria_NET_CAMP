@@ -9,6 +9,7 @@ using PizzaProject.Simulation;
 using PizzaProject.Simulator_Generator.CustomersGeneration;
 using PizzaProject.Storage_Waiter.Interfaces;
 using PizzaProject.Storage_Waiter.Staff;
+using static PizzaProject.Administration.PizzeriaData;
 
 namespace PizzaProject
 {
@@ -46,9 +47,9 @@ namespace PizzaProject
 
             List<Chef> chefs = new List<Chef>
             {
-                new Chef("Anton", productStorage, Filler.GetForFirstChef()),
-                new Chef("Oleg", productStorage, Filler.GetForFirstChef()),
-                new Chef("Ivan", productStorage, Filler.GetForFirstChef())
+                new Chef("Anton", productStorage, Category.Drinks),
+                new Chef("Oleg", productStorage,  Category.Pizzas, Category.Sweets),
+                new Chef("Ivan", productStorage,  Category.Pizzas, Category.Sweets)
             };
 
             

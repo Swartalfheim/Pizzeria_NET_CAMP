@@ -63,7 +63,7 @@ namespace PizzaProject.Storage_Waiter.Staff
                         var potentialChef = Chefs[_nextChefIndex];
                         _nextChefIndex = (_nextChefIndex + 1) % Chefs.Count;  // циклічно рухаємося по кухарям
 
-                        if (!potentialChef.IsBusy && potentialChef.Recipes.Contains(order.Recipe))
+                        if (!potentialChef.IsBusy && potentialChef.Categories.Contains(order.Category))
                         {
                             freeChef = potentialChef;
                             break;

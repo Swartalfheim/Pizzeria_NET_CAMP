@@ -13,21 +13,22 @@ namespace PizzaProject.Storage_Waiter.Staff
 
         public string Name { get; set; }
         public bool IsBusy { get; set; }
-        public List<Recipe> Recipes { get; set; } = new ();
+        /*public List<Recipe> Recipes { get; set; } = new ();*/ // мінус
 
         private Storage _storage;
+        public List<Category> Categories { get; set; }
 
-        public Chef(string name, Storage storage, List<Recipe> recipes = null)
+        public Chef(string name, Storage storage, params Category[] categories)
         {
             Name = name;
-            Recipes = recipes ?? new List<Recipe>();
+            /*Recipes = recipes ?? new List<Recipe>();*/ // мінус
             _storage = storage;
-
+            Categories = categories.ToList();
         }
 
         public void Cook(IOffer dish)
         {
-            if (!Recipes.Contains(dish.Recipe))
+            if (!Categories.Contains(dish.Category))
             {
                 throw new Exception("Recipe not found");
             }
@@ -54,7 +55,7 @@ namespace PizzaProject.Storage_Waiter.Staff
         {
             get
             {
-                string dishes = string.Join(", ", Recipes);
+                string dishes = string.Join(", ", Categories);
                 return $"{Name}'s dishes: {dishes}";
             }
         }       

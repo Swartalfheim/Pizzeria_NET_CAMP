@@ -8,7 +8,10 @@ namespace PizzaProject
     {
         public static event Action<string, Order>? OrderDelivered;
 
+        private const ushort DELIVERY_TIME = 1000;
+
         private string _name;
+
         private Storage _storage;
 
         private CancellationTokenSource _cancellationTokenSource;
@@ -26,20 +29,20 @@ namespace PizzaProject
             _cancellationTokenSource = new CancellationTokenSource();
             var token = _cancellationTokenSource.Token;
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
-                while (true)
+                while (!token.IsCancellationRequested)
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        break;
-                    }
-
                     foreach (var order in _storage.PreparedOrders)
                     {
+                        if (token.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
                         if (order.Value > 0)
                         {
-                            Task.Delay(1000).Wait();
+                            await Task.Delay(DELIVERY_TIME);
                             if (_storage.TakeOrder(order.Key) is TakeResult.SuccessfullyTaken)
                             {
                                 OrderDelivered?.Invoke(_name, order.Key);
@@ -55,4 +58,5 @@ namespace PizzaProject
             _cancellationTokenSource?.Cancel();
         }
     }
+
 }
