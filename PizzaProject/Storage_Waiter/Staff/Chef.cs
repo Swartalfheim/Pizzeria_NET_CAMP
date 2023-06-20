@@ -13,7 +13,6 @@ namespace PizzaProject.Storage_Waiter.Staff
 
         public string Name { get; set; }
         public bool IsBusy { get; set; }
-        /*public List<Recipe> Recipes { get; set; } = new ();*/ // мінус
 
         private Storage _storage;
         public List<Category> Categories { get; set; }
@@ -21,7 +20,6 @@ namespace PizzaProject.Storage_Waiter.Staff
         public Chef(string name, Storage storage, params Category[] categories)
         {
             Name = name;
-            /*Recipes = recipes ?? new List<Recipe>();*/ // мінус
             _storage = storage;
             Categories = categories.ToList();
         }
